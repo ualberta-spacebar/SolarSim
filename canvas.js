@@ -178,7 +178,7 @@ function new_planet_radius(mass, angle, orbital_radius, radius, colour, parent) 
     var phys_y = orbital_radius * Math.sin(angle);
 
     var v = Math.sqrt(G * parent.mass / orbital_radius);
-    v += v * (Math.random() - 0.5);
+    v += v * (Math.random() - 0.5) * .4;
     var vx = v * Math.cos((Math.PI / 2) - angle);
     var vy = -v * Math.sin((Math.PI / 2) - angle);
 
@@ -190,8 +190,8 @@ function new_planet_velocity(mass, angle, velocity, radius, colour, parent) {
     return NaN;
 }
 
-const num_trail_dots = 0;
-const dot_timesteps = 5;
+const num_trail_dots = 16;
+const dot_timesteps = 8;
 const dot_scale = 0.1;
 
 const twinkliness = 0.1;
