@@ -1,3 +1,4 @@
+//======= INITIAL CANVAS STUFF ======
 // gets the canvas element
 var canvas = document.querySelector("canvas");
 
@@ -9,6 +10,9 @@ canvas.height = window.innerHeight - 5;
 // used to draw on the canvas
 var c = canvas.getContext("2d");
 
+
+
+//======= CLASS DEFINITIONS ======
 class BgStar {
     constructor() {
         this.px = Math.random() * canvas.width;
@@ -173,6 +177,9 @@ class Planet {
     }
 }
 
+
+
+//======= PLANET CREATION FUNCTIONS ======
 function new_planet_radius(mass, angle, orbital_radius, radius, colour, parent) {
     var phys_x = orbital_radius * Math.cos(angle);
     var phys_y = orbital_radius * Math.sin(angle);
@@ -190,44 +197,54 @@ function new_planet_velocity(mass, angle, velocity, radius, colour, parent) {
     return NaN;
 }
 
-const num_trail_dots = 10;
-const dot_timesteps = 5;
 
-const dot_radius_fraction = 1 / 3;
+
+//======= PARAMETERS ======
+
+// planet trail parameters
+const num_trail_dots = 10;
+const dot_timesteps = 5;    // # of frames between trail dots
+const dot_radius_fraction = 1 / 3;  // fraction of the planet's radius for biggest dot
 const dot_scale = (1 / num_trail_dots) * dot_radius_fraction;
 
-const twinkliness = 0.1;
-
-// physics constancts
+// physics parameters
 var time_step = 0;
-const time_scale = 100000;
+const time_scale = 100000;  // higher = faster simulation
 
-const G = 6.67408 * (10 ** -11);
-const AU = 149597870700;    // meters
+const G = 6.67408 * (10 ** -11);    // gravitational constant
+const AU = 149597870700;    // astronomical unit constant
 
 // canvas scaling
-var width_m = 12 * AU;
-var height_m = (canvas.height / canvas.width) * width_m;
+var width_m = 12 * AU;  // width of the canvas in meters
+var height_m = (canvas.height / canvas.width) * width_m;    // height of the canvas in meters
 
-var pixels_per_m = canvas.width / width_m;
+var pixels_per_m = canvas.width / width_m;  // # of pixels per meter
 
-// create background stars
-var bg_stars = [];
 
+
+//======= BACKGROUND STAR STUFF ======
+const twinkliness = 0.1;    // higher = more twinkly
 var num_stars = 1500;
 
+var bg_stars = [];
+
+// create stars
 for (var i = 0; i < num_stars; i++) {
     bg_stars.push(new BgStar());
 }
 
-// create sun
+
+
+//======= SUN STUFF ======
 var sun_mass = 2 * (10 ** 30);
 var sun_radius = 35;
 var sun_colour = "#FDB813";
 
 var sun = new Sun(sun_mass, sun_radius, sun_colour);
 
-// create planets
+
+
+//======= PLANET STUFF ======
 var planets = [];
 
 var num_planets = 30;
@@ -242,6 +259,28 @@ for (var i = 0; i < num_planets; i++) {
 
     var planet = new_planet_radius(mass, angle, orbital_radius, radius, colour, sun);
     planets.push(planet);
+}
+
+
+
+//======= CANVAS STUFF ======
+function drawGrid() {
+    // draw vertical lines
+    for (let i = 0; i <= width_m; i += AU) {
+        c.beginPath();
+        c.strokeStyle = "#2e2e2e"
+        c.moveTo(i * pixels_per_m, 0);
+        c.lineTo(i * pixels_per_m, canvas.height);
+        c.stroke();
+    }
+    // draw horizontal lines
+    for (let i = 0; i <= height_m; i += AU) {
+        c.beginPath();
+        c.strokeStyle = "#2e2e2e"
+        c.moveTo(0, i * pixels_per_m);
+        c.lineTo(canvas.width, i * pixels_per_m);
+        c.stroke();
+    }
 }
 
 function animate() {
@@ -265,26 +304,6 @@ function animate() {
     time_step += 1;
 }
 
-function drawGrid() {
-    // draw vertical lines
-    for (let i = 0; i <= width_m; i += AU) {
-        c.beginPath();
-        c.strokeStyle = "#2e2e2e"
-        c.moveTo(i * pixels_per_m, 0);
-        c.lineTo(i * pixels_per_m, canvas.height);
-        c.stroke();
-    }
-    // draw horizontal lines
-    for (let i = 0; i <= height_m; i += AU) {
-        c.beginPath();
-        c.strokeStyle = "#2e2e2e"
-        c.moveTo(0, i * pixels_per_m);
-        c.lineTo(canvas.width, i * pixels_per_m);
-        c.stroke();
-    }
-}
 
 // start the above loop
 animate();
-
-console.log(canvas);
