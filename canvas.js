@@ -140,7 +140,7 @@ class Planet {
         }
 
         if (time_step % dot_timesteps == 0) {
-            this.previous_positions.push([this.px, this.py]);
+            this.previous_positions.push([this.phys_x, this.phys_y]);
             if (this.previous_positions.length > num_trail_dots) {
                 this.previous_positions.shift();
             }
@@ -157,8 +157,8 @@ class Planet {
         c.fill();
 
         for (var i in this.previous_positions) {
-            var x = this.previous_positions[i][0];
-            var y = this.previous_positions[i][1];
+            var x = this.parent.px + (this.previous_positions[i][0] * pixels_per_m);
+            var y = this.parent.py + (this.previous_positions[i][1] * pixels_per_m);
 
             c.strokeStyle = this.colour;
             c.fillStyle = this.colour;
