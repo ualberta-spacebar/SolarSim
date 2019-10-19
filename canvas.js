@@ -21,19 +21,19 @@ function map_radius(mass) {
     factor *= 2;
     radius = factor;
     if (mass < 1e23) {
-        radius += 3;
+        radius += Math.random() * (4 - 2) + 2;
     } else if (1e23 < mass && mass < 1e24) {
-        radius += 5;
+        radius += Math.random() * (6 - 4) + 4;
     } else if (1e24 < mass && mass < 1e25) {
-        radius += 7;
+        radius += Math.random() * (8 - 6) + 6;
     } else if (1e25 < mass && mass < 1e26) {
-        radius += 9;
+        radius += Math.random() * (10 - 8) + 8;
     } else if (1e26 < mass && mass < 1e27) {
-        radius += 11;
+        radius += Math.random() * (12 - 10) + 10;
     } else if (1e27 < mass && mass < 1e28) {
-        radius += 13;
+        radius += Math.random() * (14 - 12) + 12;
     } else if (mass > 1e28) {
-        radius += 15;
+        radius += Math.random() * (16 - 14) + 14;
     }
     return radius * planet_scale;
 }
