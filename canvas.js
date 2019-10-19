@@ -74,6 +74,9 @@ class Sun {
     }
 
     update() {
+        this.px = canvas.width / 2;
+        this.py = canvas.height / 2;
+
         this.draw();
     }
 }
@@ -134,7 +137,7 @@ class Planet {
             c.strokeStyle = this.colour;
             c.fillStyle = this.colour;
             c.beginPath();
-            c.arc(x, y, i * this.radius * dot_scale, 0, Math.PI * 2, false);
+            c.arc(x, y, i * radius * dot_scale, 0, Math.PI * 2, false);
             c.stroke();
             c.fill();
         }
@@ -204,7 +207,7 @@ var running = true;
 
 // planet trail parameters
 const num_trail_dots = 10;
-const dot_timesteps = 9;    // # of frames between trail dots
+const dot_timesteps = 5;    // # of frames between trail dots
 const dot_radius_fraction = 1 / 3;  // fraction of the planet's radius for biggest dot
 const dot_scale = (1 / num_trail_dots) * dot_radius_fraction;
 
@@ -293,7 +296,7 @@ function drawGrid() {
 
 function animate() {
     canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight - 100;
+    canvas.height = window.innerHeight;
     // call animate in a loop for each frame
     if (running) {
         requestAnimationFrame(animate);
