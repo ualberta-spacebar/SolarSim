@@ -265,8 +265,11 @@ for (var i = 0; i < num_planets; i++) {
 
 
 //======= CANVAS STUFF ======
-function stop() {
-    running = false;
+function pause() {
+    running = !running;
+    if (running) {
+        animate();
+    }
 }
 
 function drawGrid() {
