@@ -1,7 +1,7 @@
 var canvas = document.querySelector("canvas");
 
-canvas.width = window.innerWidth - 5;
-canvas.height = window.innerHeight - 20;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
 // context
 // used to draw on the canvas
@@ -59,6 +59,10 @@ class Planet {
     draw() {
         console.log("Sun", this.sun.px, this.sun.py);
         console.log("Planet", this.px, this.py);
+        console.log("Orbital Distance", this.orbital_distance / AU);
+        console.log("Gravity", this.gravity);
+        // console.log("Angle", this.angle);
+
         this.px = this.sun.px + (this.phys_x * pixels_per_m);
         this.py = this.sun.py + (this.phys_y * pixels_per_m);
 
@@ -78,28 +82,29 @@ class Planet {
     apply_physics() {
         this.phys_x += this.vx;
         this.phys_y += this.vy;
-        // this.vx += this.gravity * Math.cos(this.angle);
-        // this.vy += this.gravity * Math.sin(this.angle);
+        this.vx -= this.gravity * Math.cos(this.angle) * time_scale;
+        this.vy -= this.gravity * Math.sin(this.angle) * time_scale;
     }
 
     // calculate the distance between the centers of the sun and planet
     get orbital_distance() {
-        var squared_distance = ((this.px - this.sun.px) ** 2) + ((this.py - this.sun.py) ** 2);
+        var squared_distance = (this.phys_x ** 2) + (this.phys_y ** 2);
         return Math.sqrt(squared_distance);
     }
 
     get gravity() {
-        return G * this.sun.mass / this.orbital_distance;
-        // return 10;
+        return G * this.sun.mass / (this.orbital_distance ** 2);
     }
 
     get angle() {
-        return Math.atan2(this.sun.phys_y - this.phys_y, this.sun.phys_x - this.phys_x);
+        return Math.atan2(this.phys_y, this.phys_x);
     }
 }
 
+const time_scale = 1000000000;
+
 const G = 6.67408 * (10 ** -11);
-const AU = 1 / 149597870700;    // meters
+const AU = 149597870700;    // meters
 
 var width_m = 6 * AU;
 var height_m = (canvas.height / canvas.width) * width_m;
