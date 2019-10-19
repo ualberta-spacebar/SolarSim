@@ -134,7 +134,7 @@ class Planet {
             c.strokeStyle = this.colour;
             c.fillStyle = this.colour;
             c.beginPath();
-            c.arc(x, y, i * radius * dot_scale, 0, Math.PI * 2, false);
+            c.arc(x, y, i * this.radius * dot_scale, 0, Math.PI * 2, false);
             c.stroke();
             c.fill();
         }
