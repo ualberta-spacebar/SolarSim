@@ -130,7 +130,7 @@ class Planet {
             c.strokeStyle = this.colour;
             c.fillStyle = this.colour;
             c.beginPath();
-            c.arc(x, y, dot_scale * i, 0, Math.PI * 2, false);
+            c.arc(x, y, i * radius * dot_scale, 0, Math.PI * 2, false);
             c.stroke();
             c.fill();
         }
@@ -190,9 +190,11 @@ function new_planet_velocity(mass, angle, velocity, radius, colour, parent) {
     return NaN;
 }
 
-const num_trail_dots = 0;
+const num_trail_dots = 10;
 const dot_timesteps = 5;
-const dot_scale = 0.1;
+
+const dot_radius_fraction = 1 / 3;
+const dot_scale = (1 / num_trail_dots) * dot_radius_fraction;
 
 const twinkliness = 0.1;
 
