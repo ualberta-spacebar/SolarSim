@@ -10,21 +10,20 @@ app.use('/',express.static(__dirname + '/'));
 serv.listen(3000);
 console.log("Server started.");
  
-// var SOCKET_LIST = {};
  
-// var io = require('socket.io')(serv,{});
-// io.sockets.on('connection made', function(socket){
-//     socket.id = Math.random();
-//     socket.x = 0;
-//     socket.y = 0;
-//     socket.number = "" + Math.floor(10 * Math.random());
-//     SOCKET_LIST[socket.id] = socket;
+var io = require('socket.io')(serv,{});
+io.sockets.on('connection', function(socket){
+    console.log('socket connection');
  
-//     socket.on('disconnect',function(){
-//         delete SOCKET_LIST[socket.id];
-//     });
+    socket.on('happy',function(data){
+        console.log('happy because ' + data.reason);
+    });
    
-// });
+    socket.emit('serverMsg',{
+        msg:'hello',
+    });
+   
+});
  
 // setInterval(function(){
 //     var pack = [];
