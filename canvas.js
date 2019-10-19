@@ -78,8 +78,8 @@ class Planet {
     apply_physics() {
         this.phys_x += this.vx;
         this.phys_y += this.vy;
-        this.vx += this.gravity * Math.cos(this.angle);
-        this.vy += this.gravity * Math.sin(this.angle);
+        // this.vx += this.gravity * Math.cos(this.angle);
+        // this.vy += this.gravity * Math.sin(this.angle);
     }
 
     // calculate the distance between the centers of the sun and planet
@@ -90,17 +90,18 @@ class Planet {
 
     get gravity() {
         return G * this.sun.mass / this.orbital_distance;
+        // return 10;
     }
 
     get angle() {
-        return Math.atan2(this.sun.py - this.py, this.sun.px - this.px);
+        return Math.atan2(this.sun.phys_y - this.phys_y, this.sun.phys_x - this.phys_x);
     }
 }
 
 const G = 6.67408 * (10 ** -11);
 const AU = 1 / 149597870700;    // meters
 
-var width_m = 8 * AU;
+var width_m = 6 * AU;
 var height_m = (canvas.height / canvas.width) * width_m;
 
 var pixels_per_m = canvas.width / width_m;
