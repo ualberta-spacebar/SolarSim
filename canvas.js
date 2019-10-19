@@ -12,6 +12,32 @@ var c = canvas.getContext("2d");
 
 
 
+//======= HELPER FUNCTIONS ======
+function map_radius(mass) {
+    var factor = mass;
+    while (factor > 1) {
+        factor /= 10;
+    }
+    factor *= 2;
+    radius = factor;
+    if (mass < 1e23) {
+        radius += 3;
+    } else if (1e23 < mass && mass < 1e24) {
+        radius += 5;
+    } else if (1e24 < mass && mass < 1e25) {
+        radius += 7;
+    } else if (1e25 < mass && mass < 1e26) {
+        radius += 9;
+    } else if (1e26 < mass && mass < 1e27) {
+        radius += 11;
+    } else if (1e27 < mass && mass < 1e28) {
+        radius += 13;
+    } else if (mass > 1e28) {
+        radius += 15;
+    }
+    return radius * planet_scale;
+}
+
 //======= CLASS DEFINITIONS ======
 class BgStar {
     constructor() {
@@ -246,16 +272,19 @@ var sun = new Sun(sun_mass, sun_radius, sun_colour);
 
 
 //======= PLANET STUFF ======
+const planet_scale = 0.7;
+
 var planets = [];
 
 var num_planets = 30;
 
 for (var i = 0; i < num_planets; i++) {
-    var mass = (Math.random() * 10) * (10 ** (Math.round(Math.random() * 5) + 20));
+    var mass = (Math.random() * 10) * (10 ** (Math.round(Math.random() * 5) + 23));
     var angle = (Math.random() * 2) * Math.PI;
     var orbital_radius = ((Math.random() * 5) + 1) * AU;
 
-    var radius = Math.round(Math.random() * 5) + 3;
+    // var radius = Math.round(Math.random() * 5) + 3;
+    var radius = map_radius(mass);
     var colour = '#' + Math.random().toString(16).slice(2, 8).toUpperCase();
 
     var planet = new_planet_radius(mass, angle, orbital_radius, radius, colour, sun);
