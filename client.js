@@ -10,7 +10,7 @@ app.use('/',express.static(__dirname + '/'));
 serv.listen(3000);
 console.log("Server started.");
  
- 
+// var SOCKET_LIST = {};
 var io = require('socket.io')(serv,{});
 io.sockets.on('connection', function(socket){
     console.log('socket connection');
@@ -21,6 +21,11 @@ io.sockets.on('connection', function(socket){
    
     socket.emit('serverMsg',{
         msg:'hello',
+    });
+
+    socket.on('disconnect',function(){
+        delete socket;
+        console.log("socket disconnected");
     });
    
 });
