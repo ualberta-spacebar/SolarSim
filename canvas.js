@@ -22,7 +22,7 @@ class Sun {
         this.py = canvas.height / 2;
 
         this.radius = radius;
-        this.colour = "#FDB813";
+        this.colour = colour;
     }
 
     draw() {
@@ -59,9 +59,26 @@ class Planet {
 
         this.radius = radius;
         this.colour = colour;
+
+        // for trails
+        this.previous_positions = [];
+
+        this.dead = false;
     }
 
     draw() {
+        if (Math.abs(this.px - this.parent.px) + this.radius < this.parent.radius && Math.abs(this.py - this.parent.py) + this.radius < this.parent.radius) {
+            this.dead = true;
+            this.parent.mass += this.mass;
+        }
+
+        if (time_step % dot_timesteps == 0) {
+            this.previous_positions.push([this.px, this.py]);
+            if (this.previous_positions.length > num_trail_dots) {
+                this.previous_positions.shift();
+            }
+        }
+
         this.px = this.parent.px + (this.phys_x * pixels_per_m);
         this.py = this.parent.py + (this.phys_y * pixels_per_m);
 
@@ -71,11 +88,25 @@ class Planet {
         c.arc(this.px, this.py, this.radius, 0, Math.PI * 2, false);
         c.stroke();
         c.fill();
+
+        for (var i in this.previous_positions) {
+            var x = this.previous_positions[i][0];
+            var y = this.previous_positions[i][1];
+
+            c.strokeStyle = this.colour;
+            c.fillStyle = this.colour;
+            c.beginPath();
+            c.arc(x, y, dot_scale * i, 0, Math.PI * 2, false);
+            c.stroke();
+            c.fill();
+        }
     }
 
     update() {
-        this.apply_physics();
-        this.draw();
+        if (!this.dead) {
+            this.apply_physics();
+            this.draw();
+        }
     }
 
     apply_physics() {
@@ -114,10 +145,12 @@ function new_planet_radius(mass, angle, orbital_radius, radius, colour, parent) 
     var phys_y = orbital_radius * Math.sin(angle);
 
     var v = Math.sqrt(G * parent.mass / orbital_radius);
+    v *= (Math.random() * 2);
     var vx = v * Math.cos((Math.PI / 2) - angle);
     var vy = -v * Math.sin((Math.PI / 2) - angle);
-    // var vx = 0;
-    // var vy = 0;
+
+    var mass_factor = mass / parent.mass;
+    // var radius = mass_factor * 3000000;
 
     var planet = new Planet(phys_x, phys_y, mass, vx, vy, radius, colour, parent);
     return planet;
@@ -127,7 +160,12 @@ function new_planet_velocity(mass, angle, velocity, radius, colour, parent) {
     return NaN;
 }
 
+const num_trail_dots = 15;
+const dot_timesteps = 5;
+const dot_scale = 0.1;
+
 // physics constancts
+var time_step = 0;
 const time_scale = 100000;
 
 const G = 6.67408 * (10 ** -11);
@@ -139,18 +177,18 @@ var height_m = (canvas.height / canvas.width) * width_m;
 
 var pixels_per_m = canvas.width / width_m;
 
-// create objects
-var objects = [];
+// create planets
+var planets = [];
 
 var sun_mass = 2 * (10 ** 30);
-var sun_radius = 30;
+var sun_radius = 40;
 var sun_colour = "#FDB813";
 
 var sun = new Sun(sun_mass, sun_radius, sun_colour);
-objects.push(sun);
+// planets.push(sun);
 
 // var planet = new Planet(10, "#6c3bd4", sun);
-// objects.push(planet);
+// planets.push(planet);
 
 // var planet_mass = 5.972 * (10 ** 24);
 // var planet_angle = 0;
@@ -158,19 +196,19 @@ objects.push(sun);
 // var planet_radius = 10;
 // var planet_colour = "#6c3bd4";
 
-var num_planets = 100;
+var num_planets = 500;
 
 // create planets
 for (var i = 0; i < num_planets; i++) {
-    var mass = 5.972 * (10 ** 24);
+    var mass = (Math.random() * 10) * (10 ** (Math.round(Math.random() * 5) + 20));
     var angle = (Math.random() * 2) * Math.PI;
-    var orbital_radius = (Math.round(Math.random() * 5) + 1) * AU;
-    
-    var radius = Math.round(Math.random() * 10) + 5;
+    var orbital_radius = ((Math.random() * 5) + 1) * AU;
+
+    var radius = Math.round(Math.random() * 5) + 3;
     var colour = '#' + Math.random().toString(16).slice(2, 8).toUpperCase();
 
     var planet = new_planet_radius(mass, angle, orbital_radius, radius, colour, sun);
-    objects.push(planet);
+    planets.push(planet);
 }
 
 function animate() {
@@ -180,11 +218,15 @@ function animate() {
     // clear the canvas
     c.clearRect(0, 0, innerWidth, innerHeight);
 
-    // call update on every celestial body
-    for (var i in objects) {
-        objects[i].update();
-    }
     drawGrid();
+
+    // call update on every celestial body
+    for (var i in planets) {
+        planets[i].update();
+    }
+    sun.update();
+
+    time_step += 1;
 }
 
 function drawGrid() {
