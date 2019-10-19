@@ -4,30 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <title>SolarSim</title>
-    <link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="style.css">
+	<script src="canvas.js" defer></script>
+	
+	<script src="https://cdn.socket.io/socket.io-1.4.5.js" defer></script>
+	<script defer>
+		var socket = io();
+
+		var random = Math.random();
+
+		var happy = function () {
+			socket.emit('happy', {
+				reason: 'its my birthday' + random
+			});
+		}
+
+		socket.on('serverMsg', function (data) {
+			console.log(data.msg);
+		});
+	</script>
 </head>
 <body>
     <canvas></canvas>
-    <script src="canvas.js"></script>
 
-    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-	<script>
-	    var socket = io();
-	   
-	    var random = Math.random();
-	   
-	    var happy = function(){
-	        socket.emit('happy',{
-	            reason:'its my birthday' + random
-	        });
-	    }
-	   
-	    socket.on('serverMsg',function(data){
-	        console.log(data.msg); 
-	    });
-	</script>
-	 
-	<button onclick="happy()">Happy</button>
+	<div class="overlay">
+		<button onclick="happy()">Happy</button>
+		<button onclick="stop()">STOP</button>
+	</div>
 
 </body>
 </html>

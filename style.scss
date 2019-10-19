@@ -1,0 +1,24 @@
+canvas {
+    background: #111;
+}
+body {
+    margin: 0;
+}
+
+.overlay {
+    width: 20vw;
+    min-width: 200px;
+    background-color: rgba(white,0.8);
+    opacity: .4;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+
+    &:hover {
+        opacity: 1.0;
+    }
+
+    button {
+        // stuff
+    }
+}

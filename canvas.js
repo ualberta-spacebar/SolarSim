@@ -3,7 +3,7 @@ var canvas = document.querySelector("canvas");
 
 // set canvas size
 canvas.width = window.innerWidth - 5;
-canvas.height = window.innerHeight - 5;
+canvas.height = window.innerHeight - 30;
 
 // canvas context
 // used to draw on the canvas
