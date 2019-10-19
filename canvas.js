@@ -130,11 +130,20 @@ function animate() {
 
 function drawGrid() {
     // draw a line
-    c.beginPath();
-    c.strokeStyle = "#fa34a3";
-    c.moveTo(0, 0);
-    c.lineTo(100, 100);
-    c.stroke();
+    for (let i = 0; i <= width_m; i += AU) {
+        c.beginPath();
+        c.strokeStyle = "#fa34a3";
+        c.moveTo(i * pixels_per_m, 0);
+        c.lineTo(i * pixels_per_m, canvas.height);
+        c.stroke();
+    }
+    for (let i = 0; i <= height_m; i += AU) {
+        c.beginPath();
+        c.strokeStyle = "#fa34a3";
+        c.moveTo(0, i * pixels_per_m);
+        c.lineTo(canvas.width, i * pixels_per_m);
+        c.stroke();
+    }
 }
 
 // start the above loop
