@@ -200,6 +200,7 @@ function new_planet_velocity(mass, angle, velocity, radius, colour, parent) {
 
 
 //======= PARAMETERS ======
+var running = true;
 
 // planet trail parameters
 const num_trail_dots = 10;
@@ -264,6 +265,10 @@ for (var i = 0; i < num_planets; i++) {
 
 
 //======= CANVAS STUFF ======
+function stop() {
+    running = false;
+}
+
 function drawGrid() {
     // draw vertical lines
     for (let i = 0; i <= width_m; i += AU) {
@@ -285,7 +290,9 @@ function drawGrid() {
 
 function animate() {
     // call animate in a loop for each frame
-    requestAnimationFrame(animate);
+    if (running) {
+        requestAnimationFrame(animate);
+    }
 
     // clear the canvas
     c.clearRect(0, 0, innerWidth, innerHeight);
