@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap");
 @font-face {
   font-family: 'Nasalization';
   src: url("nasalization-rg.ttf");
@@ -31,6 +32,7 @@ canvas {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  font-family: 'Source Sans Pro', sans-serif;
 }
 
 .overlay:hover {
@@ -38,15 +40,29 @@ canvas {
 }
 
 .overlay * {
-  margin: 4px 8px;
+  margin: 2px 8px;
 }
 
 .overlay h3 {
-  font-family: 'Nasalization';
+  font-family: 'Nasalization' !important;
   text-align: center;
 }
 
-.overlay button {
+.overlay .game_settings {
+  background-color: rgba(0, 0, 0, 0.03);
+  border: 0.5px solid rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  padding: 4px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.overlay .game_settings button {
   width: 50%;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;

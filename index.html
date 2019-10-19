@@ -29,8 +29,33 @@
 
 	<div class="overlay">
 		<h3>CONTROL</h3>
-		<button onclick="happy()">Happy</button>
-		<button onclick="pause()">Pause</button>
+		<div class="game_settings" id="game_objects">
+			test
+		</div>
+		<div class="game_settings" id="game_parameters">
+			<button onclick="pause()">Pause</button>
+			<button onclick="happy()">Happy</button>
+			<label>
+				Stars
+				<input type="checkbox">
+			</label>
+			<label>
+				Trails
+				<input type="checkbox">
+			</label>
+			<label>
+				Grid
+				<input type="checkbox">
+			</label>
+			<label>
+				Time Scale
+				<input id="time" type="range">
+			</label>
+			<label>
+				Zoom Factor
+				<input id="zoom" type="range">
+			</label>
+		</div>
 	</div>
 
 </body>

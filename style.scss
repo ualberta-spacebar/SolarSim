@@ -3,6 +3,8 @@
     src: url('nasalization-rg.ttf');
 }
 
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');
+
 html, body {
     width: 100%;
     height: 100%;
@@ -28,22 +30,32 @@ canvas {
     border-radius: 3px;
     display: flex;
     flex-direction: column;
+    font-family: 'Source Sans Pro', sans-serif;
 
     &:hover {
         opacity: 1.0;
     }
 
-    & * {
-        margin: 4px 8px;
+    * {
+        margin: 2px 8px;
     }
 
     h3 {
-        font-family: 'Nasalization';
+        font-family: 'Nasalization' !important;
         text-align: center;
     }
 
-    button {
-        width: 50%;
-        box-sizing: border-box;
+    .game_settings {
+        background-color: rgba(black, 0.03);
+        border: .5px solid rgba(black, 0.2);
+        border-radius: 3px;
+        padding: 4px;
+        display: flex;
+        flex-direction: column;
+
+        button {
+            width: 50%;
+            box-sizing: border-box;
+        }
     }
 }
