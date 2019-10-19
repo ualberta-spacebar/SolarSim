@@ -178,7 +178,7 @@ function new_planet_radius(mass, angle, orbital_radius, radius, colour, parent) 
     var phys_y = orbital_radius * Math.sin(angle);
 
     var v = Math.sqrt(G * parent.mass / orbital_radius);
-    v += v * (Math.random() - 0.5);
+    v += v * (Math.random() - 0.5) * .4;
     var vx = v * Math.cos((Math.PI / 2) - angle);
     var vy = -v * Math.sin((Math.PI / 2) - angle);
 
