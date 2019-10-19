@@ -1,22 +1,56 @@
-canvas {
-  background: #111;
+@font-face {
+  font-family: 'Nasalization';
+  src: url("nasalization-rg.ttf");
 }
 
-body {
+html, body {
+  width: 100%;
+  height: 100%;
   margin: 0;
+}
+
+canvas {
+  background: #111;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 .overlay {
   width: 20vw;
   min-width: 200px;
+  height: 80%;
   background-color: rgba(255, 255, 255, 0.8);
-  opacity: 0.4;
+  opacity: .4;
   position: absolute;
   top: 5px;
   left: 5px;
-}
-.overlay:hover {
-  opacity: 1;
+  border-radius: 3px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
+.overlay:hover {
+  opacity: 1.0;
+}
+
+.overlay * {
+  margin: 4px 8px;
+}
+
+.overlay h3 {
+  font-family: 'Nasalization';
+  text-align: center;
+}
+
+.overlay button {
+  width: 50%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
 /*# sourceMappingURL=style.css.map */

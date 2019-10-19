@@ -1,24 +1,49 @@
+@font-face {
+    font-family: 'Nasalization';
+    src: url('nasalization-rg.ttf');
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
 canvas {
     background: #111;
-}
-body {
-    margin: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
 }
 
 .overlay {
     width: 20vw;
     min-width: 200px;
+    height: 80%;
     background-color: rgba(white,0.8);
     opacity: .4;
     position: absolute;
     top: 5px;
     left: 5px;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
 
     &:hover {
         opacity: 1.0;
     }
 
+    & * {
+        margin: 4px 8px;
+    }
+
+    h3 {
+        font-family: 'Nasalization';
+        text-align: center;
+    }
+
     button {
-        // stuff
+        width: 50%;
+        box-sizing: border-box;
     }
 }
