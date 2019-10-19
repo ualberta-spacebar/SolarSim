@@ -10,11 +10,16 @@ app.use('/',express.static(__dirname + '/'));
 serv.listen(3000);
 console.log("Server started.");
  
-// var SOCKET_LIST = {};
+var SOCKET_LIST = {};
+var connection_number = 0;
 var io = require('socket.io')(serv,{});
 io.sockets.on('connection', function(socket){
-    console.log('socket connection');
- 
+    console.log('socket connection', connection_number);
+
+    socket.index = connection_number;
+    connection_number++;
+    SOCKET_LIST[socket.index] = socket;
+
     socket.on('happy',function(data){
         console.log('happy because ' + data.reason);
     });
@@ -26,6 +31,8 @@ io.sockets.on('connection', function(socket){
     socket.on('disconnect',function(){
         delete socket;
         console.log("socket disconnected");
+        SOCKET_LIST[socket.index]
+        
     });
    
 });
