@@ -27,7 +27,7 @@ class BgStar {
             this.py = Math.random() * canvas.height;
         }
 
-        this.alpha += (Math.random() / 5) - 0.1;
+        this.alpha += ((Math.random() - 0.5) * 2) * twinkliness;
         this.alpha = Math.max(0, Math.min(1.0, this.alpha));
         this.draw();
     }
@@ -178,7 +178,7 @@ function new_planet_radius(mass, angle, orbital_radius, radius, colour, parent) 
     var phys_y = orbital_radius * Math.sin(angle);
 
     var v = Math.sqrt(G * parent.mass / orbital_radius);
-    // v += v * (Math.random() - 0.5);
+    v += v * (Math.random() - 0.5);
     var vx = v * Math.cos((Math.PI / 2) - angle);
     var vy = -v * Math.sin((Math.PI / 2) - angle);
 
@@ -190,9 +190,11 @@ function new_planet_velocity(mass, angle, velocity, radius, colour, parent) {
     return NaN;
 }
 
-const num_trail_dots = 15;
+const num_trail_dots = 0;
 const dot_timesteps = 5;
 const dot_scale = 0.1;
+
+const twinkliness = 0.1;
 
 // physics constancts
 var time_step = 0;
@@ -210,7 +212,7 @@ var pixels_per_m = canvas.width / width_m;
 // create background stars
 var bg_stars = [];
 
-var num_stars = 200;
+var num_stars = 1500;
 
 for (var i = 0; i < num_stars; i++) {
     bg_stars.push(new BgStar());
@@ -226,7 +228,7 @@ var sun = new Sun(sun_mass, sun_radius, sun_colour);
 // create planets
 var planets = [];
 
-var num_planets = 300;
+var num_planets = 30;
 
 for (var i = 0; i < num_planets; i++) {
     var mass = (Math.random() * 10) * (10 ** (Math.round(Math.random() * 5) + 20));
@@ -247,7 +249,7 @@ function animate() {
     // clear the canvas
     c.clearRect(0, 0, innerWidth, innerHeight);
 
-    drawGrid();
+    // drawGrid();
 
     for (var i in bg_stars) {
         bg_stars[i].update();
