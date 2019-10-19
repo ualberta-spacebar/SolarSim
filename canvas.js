@@ -49,18 +49,18 @@ class Planet {
         this.sun = sun;
 
         this.px = this.sun.px + (this.phys_x * pixels_per_m);
-        this.py = this.sun.px + (this.phys_y * pixels_per_m);
+        this.py = this.sun.py + (this.phys_y * pixels_per_m);
 
-        // this.px = sun.px + initial_orbital_distance;
-        // this.py = sun.py;
         this.vx = 0;
         this.vy = 0;
         this.colour = colour;
     }
 
     draw() {
+        console.log("Sun", this.sun.px, this.sun.py);
+        console.log("Planet", this.px, this.py);
         this.px = this.sun.px + (this.phys_x * pixels_per_m);
-        this.py = this.sun.px + (this.phys_y * pixels_per_m);
+        this.py = this.sun.py + (this.phys_y * pixels_per_m);
 
         c.strokeStyle = this.colour;
         c.fillStyle = this.colour;
@@ -76,8 +76,8 @@ class Planet {
     }
 
     apply_physics() {
-        this.px += this.vx;
-        this.py += this.vy;
+        this.phys_x += this.vx;
+        this.phys_y += this.vy;
         this.vx += this.gravity * Math.cos(this.angle);
         this.vy += this.gravity * Math.sin(this.angle);
     }
@@ -97,14 +97,13 @@ class Planet {
     }
 }
 
+const G = 6.67408 * (10 ** -11);
+const AU = 1 / 149597870700;    // meters
+
 var width_m = 8 * AU;
 var height_m = (canvas.height / canvas.width) * width_m;
 
 var pixels_per_m = canvas.width / width_m;
-
-// const G = 1;
-const G = 6.67408 * (10 ** -11);
-const AU = 1 / 149597870700;    // meters
 
 var objects = [];
 
