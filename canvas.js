@@ -9,7 +9,12 @@ var c = canvas.getContext("2d");
 
 class Sun {
     constructor() {
-        this.mass = 100;
+        this.phys_x = 0;
+        this.phys_y = 0;
+
+        // this.mass = 100;
+        this.mass = 2 * (10 ** 30);
+
         this.px = canvas.width / 2;
         this.py = canvas.height / 2;
 
@@ -33,19 +38,30 @@ class Sun {
 }
 
 class Planet {
-    constructor(initial_orbital_distance, radius, colour, sun) {
-        this.mass = 10;
+    constructor(radius, colour, sun) {
+        this.phys_x = 1 * AU;
+        this.phys_y = 0;
+
+        // this.mass = 10;
+        this.mass = 5.972 * (10 ** 24);
+
         this.radius = radius;
         this.sun = sun;
 
-        this.px = sun.px + initial_orbital_distance;
-        this.py = sun.py;
+        this.px = this.sun.px + (this.phys_x * pixels_per_m);
+        this.py = this.sun.px + (this.phys_y * pixels_per_m);
+
+        // this.px = sun.px + initial_orbital_distance;
+        // this.py = sun.py;
         this.vx = 0;
         this.vy = 0;
         this.colour = colour;
     }
 
     draw() {
+        this.px = this.sun.px + (this.phys_x * pixels_per_m);
+        this.py = this.sun.px + (this.phys_y * pixels_per_m);
+
         c.strokeStyle = this.colour;
         c.fillStyle = this.colour;
         c.beginPath();
@@ -55,12 +71,11 @@ class Planet {
     }
 
     update() {
-        this.physics();
-    
+        this.apply_physics();
         this.draw();
     }
 
-    physics() {
+    apply_physics() {
         this.px += this.vx;
         this.py += this.vy;
         this.vx += this.gravity * Math.cos(this.angle);
@@ -82,14 +97,21 @@ class Planet {
     }
 }
 
-const G = 1;
+var width_m = 8 * AU;
+var height_m = (canvas.height / canvas.width) * width_m;
+
+var pixels_per_m = canvas.width / width_m;
+
+// const G = 1;
+const G = 6.67408 * (10 ** -11);
+const AU = 1 / 149597870700;    // meters
 
 var objects = [];
 
 var sun = new Sun();
 objects.push(sun);
 
-var planet = new Planet(400, 10, "#6c3bd4", sun);
+var planet = new Planet(10, "#6c3bd4", sun);
 objects.push(planet);
 
 function animate() {
