@@ -164,7 +164,7 @@ var num_planets = 100;
 for (var i = 0; i < num_planets; i++) {
     var mass = 5.972 * (10 ** 24);
     var angle = (Math.random() * 2) * Math.PI;
-    var orbital_radius = (Math.round(Math.random() * 5) + 1) * AU;
+    var orbital_radius = ((Math.random() * 5) + 1) * AU;
     
     var radius = Math.round(Math.random() * 10) + 5;
     var colour = '#' + Math.random().toString(16).slice(2, 8).toUpperCase();
