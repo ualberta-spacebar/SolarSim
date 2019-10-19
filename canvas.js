@@ -211,12 +211,18 @@ class Planet {
 
 
 //======= PLANET CREATION FUNCTIONS ======
-function new_planet_radius(mass, angle, orbital_radius, radius, colour, parent) {
+
+// create a planet with orbital radius, solve for velocity
+function new_planet_radius(mass, angle, orbital_radius, radius, colour, parent, stable) {
     var phys_x = orbital_radius * Math.cos(angle);
     var phys_y = orbital_radius * Math.sin(angle);
 
     var v = Math.sqrt(G * parent.mass / orbital_radius);
-    v += v * (Math.random() - 0.5) * .4;
+
+    if (!stable) {
+        v += v * (Math.random() - 0.5) * orbit_instability;
+    }
+
     var vx = v * Math.cos((Math.PI / 2) - angle);
     var vy = -v * Math.sin((Math.PI / 2) - angle);
 
@@ -224,8 +230,22 @@ function new_planet_radius(mass, angle, orbital_radius, radius, colour, parent) 
     return planet;
 }
 
-function new_planet_velocity(mass, angle, velocity, radius, colour, parent) {
-    return NaN;
+// create a planet with velocity, solve for orbital radius
+function new_planet_velocity(mass, angle, v, radius, colour, parent, stable) {
+    var orbital_radius = (G * parent.mass) / (v ** 2);
+
+    var phys_x = orbital_radius * Math.cos(angle);
+    var phys_y = orbital_radius * Math.sin(angle);
+
+    if (!stable) {
+        v += v * (Math.random() - 0.5) * orbit_instability;
+    }
+
+    var vx = v * Math.cos((Math.PI / 2) - angle);
+    var vy = -v * Math.sin((Math.PI / 2) - angle);
+
+    var planet = new Planet(phys_x, phys_y, mass, vx, vy, radius, colour, parent);
+    return planet;
 }
 
 
@@ -246,6 +266,8 @@ const time_scale = 100000;  // higher = faster simulation
 const G = 6.67408 * (10 ** -11);    // gravitational constant
 const AU = 149597870700;    // astronomical unit constant
 
+const orbit_instability = 0.4;  // how messed up orbits are when created
+
 // canvas scaling
 var width_m = 12 * AU;  // width of the canvas in meters
 var height_m = (canvas.height / canvas.width) * width_m;    // height of the canvas in meters
@@ -259,7 +281,6 @@ const twinkliness = 0.1;    // higher = more twinkly
 var num_stars = 1500;
 
 var bg_stars = [];
-
 // create stars
 for (var i = 0; i < num_stars; i++) {
     bg_stars.push(new BgStar());
@@ -269,7 +290,7 @@ for (var i = 0; i < num_stars; i++) {
 
 //======= SUN STUFF ======
 var sun_mass = 2 * (10 ** 30);
-var sun_radius = 35;
+var sun_radius = 40;
 var sun_colour = "#FDB813";
 
 var sun = new Sun(sun_mass, sun_radius, sun_colour);
@@ -277,22 +298,26 @@ var sun = new Sun(sun_mass, sun_radius, sun_colour);
 
 
 //======= PLANET STUFF ======
-const planet_scale = 0.7;
+const planet_scale = 0.6;
+var num_planets = 30;
 
 var planets = [];
 
-var num_planets = 30;
-
 for (var i = 0; i < num_planets; i++) {
+    var stable_orbit = false;
+
     var mass = (Math.random() * 10) * (10 ** (Math.round(Math.random() * 5) + 23));
     var angle = (Math.random() * 2) * Math.PI;
-    var orbital_radius = ((Math.random() * 5) + 1) * AU;
 
-    // var radius = Math.round(Math.random() * 5) + 3;
+    var orbital_radius = ((Math.random() * 5) + 1) * AU;
+    // var velocity = Math.random() * (10 ** 5);
+
     var radius = map_radius(mass);
     var colour = '#' + Math.random().toString(16).slice(2, 8).toUpperCase();
 
-    var planet = new_planet_radius(mass, angle, orbital_radius, radius, colour, sun);
+    var planet = new_planet_radius(mass, angle, orbital_radius, radius, colour, sun, stable_orbit);
+    // var planet = new_planet_velocity(mass, angle, velocity, radius, colour, sun, stable_orbit);
+
     planets.push(planet);
 }
 
