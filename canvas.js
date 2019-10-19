@@ -3,8 +3,8 @@
 var canvas = document.querySelector("canvas");
 
 // set canvas size
-canvas.width = window.innerWidth - 5;
-canvas.height = window.innerHeight - 30;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
 // canvas context
 // used to draw on the canvas
@@ -321,6 +321,8 @@ function drawGrid() {
 }
 
 function animate() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight - 100;
     // call animate in a loop for each frame
     if (running) {
         requestAnimationFrame(animate);
