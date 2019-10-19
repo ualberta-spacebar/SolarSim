@@ -125,6 +125,16 @@ function animate() {
     for (var i in objects) {
         objects[i].update();
     }
+    drawGrid();
+}
+
+function drawGrid() {
+    // draw a line
+    c.beginPath();
+    c.strokeStyle = "#fa34a3";
+    c.moveTo(0, 0);
+    c.lineTo(100, 100);
+    c.stroke();
 }
 
 // start the above loop
