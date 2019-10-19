@@ -38,6 +38,8 @@ function map_radius(mass) {
     return radius * planet_scale;
 }
 
+
+
 //======= CLASS DEFINITIONS ======
 class BgStar {
     constructor() {
@@ -232,8 +234,8 @@ function new_planet_velocity(mass, angle, velocity, radius, colour, parent) {
 var running = true;
 
 // planet trail parameters
-const num_trail_dots = 10;
-const dot_timesteps = 5;    // # of frames between trail dots
+const num_trail_dots = 12;
+const dot_timesteps = 7;    // # of frames between trail dots
 const dot_radius_fraction = 1 / 3;  // fraction of the planet's radius for biggest dot
 const dot_scale = (1 / num_trail_dots) * dot_radius_fraction;
 
