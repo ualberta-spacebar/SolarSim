@@ -42,7 +42,6 @@ class Planet {
         this.phys_x = 1 * AU;
         this.phys_y = 0;
 
-        // this.mass = 10;
         this.mass = 5.972 * (10 ** 24);
 
         this.radius = radius;
@@ -52,17 +51,11 @@ class Planet {
         this.py = this.sun.py + (this.phys_y * pixels_per_m);
 
         this.vx = 0;
-        this.vy = 0;
+        this.vy = Math.sqrt(G * this.sun.mass / this.orbital_distance);
         this.colour = colour;
     }
 
     draw() {
-        console.log("Sun", this.sun.px, this.sun.py);
-        console.log("Planet", this.px, this.py);
-        console.log("Orbital Distance", this.orbital_distance / AU);
-        console.log("Gravity", this.gravity);
-        // console.log("Angle", this.angle);
-
         this.px = this.sun.px + (this.phys_x * pixels_per_m);
         this.py = this.sun.py + (this.phys_y * pixels_per_m);
 
@@ -80,10 +73,18 @@ class Planet {
     }
 
     apply_physics() {
-        this.phys_x += this.vx;
-        this.phys_y += this.vy;
+        this.phys_x += this.vx * time_scale;
+        this.phys_y += this.vy * time_scale;
         this.vx -= this.gravity * Math.cos(this.angle) * time_scale;
         this.vy -= this.gravity * Math.sin(this.angle) * time_scale;
+    }
+
+    log() {
+        console.log("Sun", this.sun.px, this.sun.py);
+        console.log("Planet", this.px, this.py);
+        console.log("Orbital Distance", this.orbital_distance / AU);
+        console.log("Gravity", this.gravity);
+        console.log("Angle", this.angle);
     }
 
     // calculate the distance between the centers of the sun and planet
@@ -101,7 +102,7 @@ class Planet {
     }
 }
 
-const time_scale = 1000000000;
+const time_scale = 100000;
 
 const G = 6.67408 * (10 ** -11);
 const AU = 149597870700;    // meters
