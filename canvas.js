@@ -33,16 +33,15 @@ class Sun {
 }
 
 class Planet {
-    constructor(orbital_radius, speed, radius, colour, sun) {
+    constructor(initial_orbital_distance, radius, colour, sun) {
         this.mass = 10;
-        this.orbital_radius = orbital_radius;
         this.radius = radius;
         this.sun = sun;
 
-        this.px = sun.px + this.orbital_radius;
+        this.px = sun.px + initial_orbital_distance;
         this.py = sun.py;
         this.vx = 0;
-        this.vy = speed;
+        this.vy = 0;
         this.colour = colour;
     }
 
@@ -56,18 +55,26 @@ class Planet {
     }
 
     update() {
+        this.physics();
+    
         this.draw();
-        console.log(this.px, this.vx);
-        this.px += this.vx;
-        this.py += this.vy;
-        this.vx += this.gravity() * Math.cos(this.angle);
-        this.vy += this.gravity() * Math.sin(this.angle);
     }
 
-    gravity() {
-        const G = 10;
-        var r = Math.sqrt(Math.pow(this.px - this.sun.px, 2) + Math.pow(this.py - this.sun.py, 2));
-        return G*this.sun.mass/(Math.pow(r, 2));
+    physics() {
+        this.px += this.vx;
+        this.py += this.vy;
+        this.vx += this.gravity * Math.cos(this.angle);
+        this.vy += this.gravity * Math.sin(this.angle);
+    }
+
+    // calculate the distance between the centers of the sun and planet
+    get orbital_distance() {
+        var squared_distance = ((this.px - this.sun.px) ** 2) + ((this.py - this.sun.py) ** 2);
+        return Math.sqrt(squared_distance);
+    }
+
+    get gravity() {
+        return G * this.sun.mass / this.orbital_distance;
     }
 
     get angle() {
@@ -75,12 +82,14 @@ class Planet {
     }
 }
 
+const G = 1;
+
 var objects = [];
 
 var sun = new Sun();
 objects.push(sun);
 
-var planet = new Planet(200, 1, 10, "#6c3bd4", sun);
+var planet = new Planet(400, 10, "#6c3bd4", sun);
 objects.push(planet);
 
 function animate() {
