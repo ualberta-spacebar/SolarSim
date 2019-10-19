@@ -2,12 +2,47 @@
 var canvas = document.querySelector("canvas");
 
 // set canvas size
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.width = window.innerWidth - 5;
+canvas.height = window.innerHeight - 5;
 
-// context
+// canvas context
 // used to draw on the canvas
 var c = canvas.getContext("2d");
+
+class BgStar {
+    constructor() {
+        this.px = Math.random() * canvas.width;
+        this.py = Math.random() * canvas.height;
+        this.radius = Math.random() * 1.6;
+
+        this.r = 220 + Math.round(Math.random() * 30);
+        this.g = 220;
+        this.b = 220 + Math.round(Math.random() * 30);
+        this.alpha = Math.random();
+    }
+
+    update() {
+        if (this.alpha < 0.05) {
+            this.px = Math.random() * canvas.width;
+            this.py = Math.random() * canvas.height;
+        }
+
+        this.alpha += (Math.random() / 5) - 0.1;
+        this.alpha = Math.max(0, Math.min(1.0, this.alpha));
+        this.draw();
+    }
+
+    draw() {
+        c.beginPath();
+        c.arc(this.px, this.py, this.radius, 0, Math.PI * 2);
+        c.fillStyle = this.colour;
+        c.fill();
+    }
+
+    get colour() {
+        return "rgba(" + this.r + "," + this.g + "," + this.b + "," + this.alpha + ")";
+    }
+}
 
 class Sun {
     constructor(mass, radius, colour) {
@@ -51,7 +86,6 @@ class Planet {
 
         this.vx = vx;
         this.vy = vy;
-        // this.vy = Math.sqrt(G * this.parent.mass / this.orbital_distance);
 
         // drawing stuff
         this.px = this.parent.px + (this.phys_x * pixels_per_m);
@@ -140,17 +174,13 @@ class Planet {
 }
 
 function new_planet_radius(mass, angle, orbital_radius, radius, colour, parent) {
-    // phys_x, phys_y, mass, vx, vy, radius, colour, parent)
     var phys_x = orbital_radius * Math.cos(angle);
     var phys_y = orbital_radius * Math.sin(angle);
 
     var v = Math.sqrt(G * parent.mass / orbital_radius);
-    v *= (Math.random() * 2);
+    // v += v * (Math.random() - 0.5);
     var vx = v * Math.cos((Math.PI / 2) - angle);
     var vy = -v * Math.sin((Math.PI / 2) - angle);
-
-    var mass_factor = mass / parent.mass;
-    // var radius = mass_factor * 3000000;
 
     var planet = new Planet(phys_x, phys_y, mass, vx, vy, radius, colour, parent);
     return planet;
@@ -177,28 +207,27 @@ var height_m = (canvas.height / canvas.width) * width_m;
 
 var pixels_per_m = canvas.width / width_m;
 
-// create planets
-var planets = [];
+// create background stars
+var bg_stars = [];
 
+var num_stars = 200;
+
+for (var i = 0; i < num_stars; i++) {
+    bg_stars.push(new BgStar());
+}
+
+// create sun
 var sun_mass = 2 * (10 ** 30);
-var sun_radius = 40;
+var sun_radius = 35;
 var sun_colour = "#FDB813";
 
 var sun = new Sun(sun_mass, sun_radius, sun_colour);
-// planets.push(sun);
-
-// var planet = new Planet(10, "#6c3bd4", sun);
-// planets.push(planet);
-
-// var planet_mass = 5.972 * (10 ** 24);
-// var planet_angle = 0;
-// var planet_orbital_radius = 2 * AU;
-// var planet_radius = 10;
-// var planet_colour = "#6c3bd4";
-
-var num_planets = 500;
 
 // create planets
+var planets = [];
+
+var num_planets = 300;
+
 for (var i = 0; i < num_planets; i++) {
     var mass = (Math.random() * 10) * (10 ** (Math.round(Math.random() * 5) + 20));
     var angle = (Math.random() * 2) * Math.PI;
@@ -220,7 +249,10 @@ function animate() {
 
     drawGrid();
 
-    // call update on every celestial body
+    for (var i in bg_stars) {
+        bg_stars[i].update();
+    }
+
     for (var i in planets) {
         planets[i].update();
     }
@@ -230,19 +262,18 @@ function animate() {
 }
 
 function drawGrid() {
-    // draw a line
+    // draw vertical lines
     for (let i = 0; i <= width_m; i += AU) {
         c.beginPath();
-        // c.strokeStyle = "#fa34a3";
-        c.strokeStyle = "rgba(255, 255, 255, 0.3)"
+        c.strokeStyle = "#2e2e2e"
         c.moveTo(i * pixels_per_m, 0);
         c.lineTo(i * pixels_per_m, canvas.height);
         c.stroke();
     }
+    // draw horizontal lines
     for (let i = 0; i <= height_m; i += AU) {
         c.beginPath();
-        // c.strokeStyle = "#fa34a3";
-        c.strokeStyle = "rgba(255, 255, 255, 0.3)"
+        c.strokeStyle = "#2e2e2e"
         c.moveTo(0, i * pixels_per_m);
         c.lineTo(canvas.width, i * pixels_per_m);
         c.stroke();
