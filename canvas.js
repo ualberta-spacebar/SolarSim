@@ -12,6 +12,21 @@ var c = canvas.getContext("2d");
 
 
 
+//======= INITIAL HTML STUFF ======
+var time_slider = document.getElementById("time");
+var zoom_slider = document.getElementById("zoom");
+
+function on_time_change(value) {
+    console.log(time_slider.value);
+}
+
+function on_zoom_change(value) {
+    // console.log(zoom_slider.value);
+    rescale(value * AU);
+}
+
+
+
 //======= HELPER FUNCTIONS ======
 function map_radius(mass) {
     var factor = mass;
@@ -36,6 +51,13 @@ function map_radius(mass) {
         radius += Math.random() * (16 - 14) + 14;
     }
     return radius * planet_scale;
+}
+
+function rescale(width) {
+    width_m = width;
+    height_m = (canvas.height / canvas.width) * width_m;
+    
+    pixels_per_m = canvas.width / width_m;
 }
 
 
@@ -269,10 +291,12 @@ const AU = 149597870700;    // astronomical unit constant
 const orbit_instability = 0.4;  // how messed up orbits are when created
 
 // canvas scaling
-var width_m = 12 * AU;  // width of the canvas in meters
-var height_m = (canvas.height / canvas.width) * width_m;    // height of the canvas in meters
-
-var pixels_per_m = canvas.width / width_m;  // # of pixels per meter
+var initial_width_AU = 12;
+var width_m;  // width of the canvas in meters
+var height_m;    // height of the canvas in meters
+var pixels_per_m;  // # of pixels per meter
+rescale(initial_width_AU * AU);
+zoom_slider.value = initial_width_AU;
 
 
 
@@ -332,21 +356,50 @@ function pause() {
 }
 
 function drawGrid() {
+    var pixels_per_AU = AU * pixels_per_m;
+
+    var i1 = sun.px;
+    var i2 = sun.px;
     // draw vertical lines
-    for (let i = 0; i <= width_m; i += AU) {
+    while (i1 < canvas.width || i2 > 0) {
+        // right
         c.beginPath();
         c.strokeStyle = "#2e2e2e"
-        c.moveTo(i * pixels_per_m, 0);
-        c.lineTo(i * pixels_per_m, canvas.height);
+        c.moveTo(i1, 0);
+        c.lineTo(i1, canvas.height);
         c.stroke();
+
+        // left
+        c.beginPath();
+        c.strokeStyle = "#2e2e2e"
+        c.moveTo(i2, 0);
+        c.lineTo(i2, canvas.height);
+        c.stroke();
+
+        i1 += pixels_per_AU;
+        i2 -= pixels_per_AU;
     }
+
+    i1 = sun.py;
+    i2 = sun.py;
     // draw horizontal lines
-    for (let i = 0; i <= height_m; i += AU) {
+    while (i1 < canvas.height || i2 > 0) {
+        // right
         c.beginPath();
         c.strokeStyle = "#2e2e2e"
-        c.moveTo(0, i * pixels_per_m);
-        c.lineTo(canvas.width, i * pixels_per_m);
+        c.moveTo(0, i1);
+        c.lineTo(canvas.width, i1);
         c.stroke();
+
+        // left
+        c.beginPath();
+        c.strokeStyle = "#2e2e2e"
+        c.moveTo(0, i2);
+        c.lineTo(canvas.width, i2);
+        c.stroke();
+
+        i1 += pixels_per_AU;
+        i2 -= pixels_per_AU;
     }
 }
 
@@ -361,7 +414,7 @@ function animate() {
     // clear the canvas
     c.clearRect(0, 0, innerWidth, innerHeight);
 
-    // drawGrid();
+    drawGrid();
 
     for (var i in bg_stars) {
         bg_stars[i].update();

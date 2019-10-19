@@ -49,11 +49,11 @@
 			</label>
 			<label>
 				Time Scale
-				<input id="time" type="range">
+				<input id="time" type="range" oninput=on_time_change(this.value) onchange=on_time_change(this.value)>
 			</label>
 			<label>
 				Zoom Factor
-				<input id="zoom" type="range">
+				<input id="zoom" type="range" min="0.1" max="100" step="any" oninput=on_zoom_change(this.value) onchange=on_zoom_change(this.value)>
 			</label>
 		</div>
 	</div>
