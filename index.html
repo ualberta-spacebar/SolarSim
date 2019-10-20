@@ -9,7 +9,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" defer></script>
 	<script src="game.js" defer></script>
 	<script src="canvas.js" defer></script>
-	<script src="https://cdn.socket.io/socket.io-1.4.5.js" defer></script>
+	<!--<script src="https://cdn.socket.io/socket.io-1.4.5.js" defer></script>
 	<script defer>
 		var socket = io();
 
@@ -24,7 +24,7 @@
 		socket.on('serverMsg', function (data) {
 			console.log(data.msg);
 		});
-	</script>
+	</script>-->
 </head>
 <body>
     <canvas></canvas>
@@ -33,7 +33,7 @@
 		<h2>☰</h2>
 		<h3>CONTROL</h3>
 		<div class="game_settings" id="game_objects">
-			<button onclick="newObjectControl('x')">+</button>
+			<button onclick="random_planet()">+</button>
 			<div class="object" id="sun">
 				<label>▼ Sun</label>
 				<ul id="characteristics">

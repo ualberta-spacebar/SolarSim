@@ -7,12 +7,10 @@ function newObjectControl(planet) {
     obj.className = "object";
     let l = document.createElement("label");
     l.innerText = "► Planet " + planet.label;
-    // let cb = document.createElement("input")
-    // cb.type = "checkbox";
     let ul = document.createElement("ul");
     ul.style.display = "none"
     ul.id = "characteristics";
-    let para = [`Mass (kg) <input type='number' value='${planet.mass}'>`, `Color <input type='color' value='${planet.colour}>`];
+    let para = [`Mass (kg) <input type='number' value='${planet.mass}'>`, `Color <input type='color' value='${planet.colour}'>`];
     for (let p of para) {
         let li = document.createElement("li");
         li.innerHTML = p;
@@ -27,10 +25,6 @@ function newObjectControl(planet) {
 }
 
 $(document).ready(function () {
-    for (let i = 1; i <= 3; i++) {
-        newObjectControl(i);
-    }
-
     $(".object label").click(function () {
         let t = $(this)[0].innerText;
         if (t[0] == "▼") {
