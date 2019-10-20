@@ -118,6 +118,14 @@ function draw_circle(x, y, radius, colour) {
     c.fill();
 }
 
+function get_planet(label) {
+    for (var i in planets) {
+        if (planets[i].label == label) {
+            return planets[i];
+        }
+    }
+}
+
 
 
 //======= CLASS DEFINITIONS ======
@@ -233,7 +241,9 @@ class Sun {
 }
 
 class Planet {
-    constructor(phys_x, phys_y, mass, vx, vy, radius, colour, parent) {
+    constructor(phys_x, phys_y, mass, vx, vy, radius, colour, parent, label) {
+        this.label = label;
+
         this.parent = parent;
 
         // physics stuff
@@ -467,13 +477,14 @@ var sun = new Sun(sun_mass, sun_temp, sun_colour);
 
 //======= PLANET STUFF ======
 const planet_scale = 0.6;
-var num_planets = 30;
+var num_planets = 5;
+
+var planet_id = 1;
+var stable_orbit = true;
 
 var planets = [];
 
 for (var i = 0; i < num_planets; i++) {
-    var stable_orbit = false;
-
     var mass = (Math.random() * 10) * (10 ** (Math.round(Math.random() * 5) + 23));
     var angle = (Math.random() * 2) * Math.PI;
 
@@ -483,10 +494,18 @@ for (var i = 0; i < num_planets; i++) {
     var radius = map_radius(mass);
     var colour = '#' + Math.random().toString(16).slice(2, 8).toUpperCase();
 
-    var planet = new_planet_radius(mass, angle, orbital_radius, radius, colour, sun, stable_orbit);
+    var label = planet_id.toString();
+
+    console.log(label);
+
+    var planet = new_planet_radius(mass, angle, orbital_radius, radius, colour, sun, stable_orbit, label);
     // var planet = new_planet_velocity(mass, angle, velocity, radius, colour, sun, stable_orbit);
 
+    newObjectControl(label);
+
     planets.push(planet);
+
+    planet_id += 1;
 }
 
 
