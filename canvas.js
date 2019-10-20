@@ -168,22 +168,16 @@ class Sun {
         // drawing stuff
         this.px = canvas.width / 2;
         this.py = canvas.height / 2;
-        this.zoom = document.getElementById("zoom").value * pixels_per_m * 2.5e8;
+        // this.zoom = document.getElementById("zoom").value * pixels_per_m * 2.5e8;
 
         this.colour = colour;
     }
 
     get radius() {
-        return this.mass / (10**30) * this.zoom;
+        return (this.mass / (10**30)) * this.zoom;
     }
 
     draw() {
-        //for future drag functionality
-        let mouseX = 0;
-        let mouseY = 0;
-        this.px = canvas.width / 2 + mouseX;
-        this.py = canvas.height / 2 + mouseY;
-
         this.glow();
         draw_circle(this.px, this.py, this.radius, this.colour);
     }
@@ -209,6 +203,12 @@ class Sun {
     }
 
     update() {
+        //for future drag functionality
+        // let mouseX = 0;
+        // let mouseY = 0;
+        // this.px = canvas.width / 2 + mouseX;
+        // this.py = canvas.height / 2 + mouseY;
+
         this.px = canvas.width / 2;
         this.py = canvas.height / 2;
 
@@ -225,6 +225,10 @@ class Sun {
 
     get habitable_end() {
         return (this.habitable_midpoint + 0.725) * AU;
+    }
+
+    get zoom() {
+        return document.getElementById("zoom").value * pixels_per_m * 2.5e8;
     }
 }
 
@@ -261,7 +265,8 @@ class Planet {
             this.draw_trails();
         }
 
-        if (Math.abs(this.px - this.parent.px) + this.radius < this.parent.radius && Math.abs(this.py - this.parent.py) + this.radius < this.parent.radius) {
+        var dist_from_sun = Math.sqrt(((this.px - this.parent.px) ** 2) + ((this.py - this.parent.py) ** 2));
+        if ((dist_from_sun + this.radius) < this.parent.radius) {
             this.dead = true;
             this.parent.mass += this.mass;
         }
@@ -306,6 +311,11 @@ class Planet {
         if (!this.dead) {
             this.apply_physics();
             this.draw();
+        } else {
+            if (this.previous_positions.length > 0) {
+                this.draw_trails();
+                this.previous_positions.shift();
+            }
         }
     }
 
