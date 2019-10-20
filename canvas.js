@@ -268,12 +268,19 @@ class Planet {
         this.dead = false;
 
         this.highlighted = false;
+
+        // this.moons = [];
     }
 
     draw() {
         if (show_trails) {
             this.draw_trails();
         }
+
+        // for (var i in this.moons) {
+        //     var moon = this.moons[i];
+        //     draw_circle(moon.px, moon.py, moon.radius, moon.colour);
+        // }
 
         var dist_from_sun = Math.sqrt(((this.px - this.parent.px) ** 2) + ((this.py - this.parent.py) ** 2));
         if (dist_from_sun < this.parent.radius) {
@@ -436,8 +443,27 @@ function random_planet() {
 
     planets.push(planet);
 
+    // add_moon(planet);
+
     planet_id += 1;
 }
+
+// function add_moon(planet) {    
+//     var mass = (Math.random() * 10) * (10 ** (Math.round(Math.random() * 4) + 20));
+//     var angle = (Math.random() * 2) * Math.PI;
+
+//     var orbital_radius = AU / 10;
+//     // var velocity = Math.random() * (10 ** 5);
+
+//     var radius = 5;
+//     var colour = "#a6a6a6";
+
+//     var label = planet.label + " " + (planet.moons.length + 1).toString();
+
+//     var moon = new_planet_radius(mass, angle, orbital_radius, radius, colour, planet, true, label);
+
+//     planet.moons.push(moon);
+// }
 
 
 
