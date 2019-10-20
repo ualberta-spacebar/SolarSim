@@ -10,7 +10,7 @@ function newObjectControl(planet) {
     let ul = document.createElement("ul");
     ul.style.display = "none"
     ul.id = "characteristics";
-    let para = [`Mass (kg) <input type='number' value='${planet.mass}'>`, `Color <input type='color' value='${planet.colour}'>`];
+    let para = [`Mass (×10<sup>16</sup> kg) <input type='number' name='${planet.label}' value='${planet.mass/1e16}'>`, `Color <input type='color' name='${planet.label}' value='${planet.colour}'>`];
     for (let p of para) {
         let li = document.createElement("li");
         li.innerHTML = p;
@@ -24,7 +24,7 @@ function newObjectControl(planet) {
     dock.appendChild(obj);
 }
 
-$(document).ready(function () {
+function toggling() {
     $(".object label").click(function () {
         let t = $(this)[0].innerText;
         if (t[0] == "▼") {
@@ -35,6 +35,20 @@ $(document).ready(function () {
         $(" ~ #characteristics", this).slideToggle();
     });
 
+    // settings
+    $(".object #mass").change(function () {
+        get_planet($(this).name).mass = $(this).value;
+        console.table(get_planet($(this).id));
+    });
+    
+    $(".object #color").change(function () {
+        get_planet($(this).name).mass = $(this).value * 1e16;
+        console.log(get_planet($(this).id));
+    });
+}
+
+$(document).ready(function () {
+    toggling();
     // sun values
     let mass_factor = 1e28;
     $("#sun #mass input")[0].value = Math.round(sun.mass / mass_factor);    // set value
