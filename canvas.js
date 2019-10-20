@@ -346,7 +346,7 @@ var width_m;  // width of the canvas in meters
 var height_m;    // height of the canvas in meters
 var pixels_per_m;  // # of pixels per meter
 rescale(initial_width_AU * AU);
-zoom_slider.value = initial_width_AU;
+zoom_slider.value = zoom_slider.max - initial_width_AU;
 
 
 
