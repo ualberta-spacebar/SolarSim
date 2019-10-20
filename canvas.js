@@ -14,15 +14,39 @@ var c = canvas.getContext("2d");
 
 //======= INITIAL HTML STUFF ======
 var time_slider = document.getElementById("time");
+time_slider.value = time_scale;
+
 var zoom_slider = document.getElementById("zoom");
 
 function on_time_change(value) {
-    console.log(time_slider.value);
+    time_scale = value;
+
+    const slowest = 100;
+    const m = -(slowest - 1) / (1000000-10000);
+    const b = slowest + 1;
+
+    dot_timesteps = Math.round(m * value + b);
+
+    for (var i in planets) {
+        planets[i].previous_positions = [];
+    }
 }
 
 function on_zoom_change(value) {
-    // console.log(zoom_slider.value);
-    rescale(value * AU);
+    var val = zoom_slider.max - value;
+    rescale(val * AU);
+}
+
+function on_click_stars(value) {
+    show_stars = value;
+}
+
+function on_click_trails(value) {
+    show_trails = value;
+}
+
+function on_click_grid(value) {
+    show_grid = value;
 }
 
 
@@ -36,19 +60,19 @@ function map_radius(mass) {
     factor *= 2;
     radius = factor;
     if (mass < 1e23) {
-        radius += 3;
+        radius += Math.random() * (4 - 2) + 2;
     } else if (1e23 < mass && mass < 1e24) {
-        radius += 5;
+        radius += Math.random() * (6 - 4) + 4;
     } else if (1e24 < mass && mass < 1e25) {
-        radius += 7;
+        radius += Math.random() * (8 - 6) + 6;
     } else if (1e25 < mass && mass < 1e26) {
-        radius += 9;
+        radius += Math.random() * (10 - 8) + 8;
     } else if (1e26 < mass && mass < 1e27) {
-        radius += 11;
+        radius += Math.random() * (12 - 10) + 10;
     } else if (1e27 < mass && mass < 1e28) {
-        radius += 13;
+        radius += Math.random() * (14 - 12) + 12;
     } else if (mass > 1e28) {
-        radius += 15;
+        radius += Math.random() * (16 - 14) + 14;
     }
     return radius * planet_scale;
 }
@@ -83,7 +107,10 @@ class BgStar {
 
         this.alpha += ((Math.random() - 0.5) * 2) * twinkliness;
         this.alpha = Math.max(0, Math.min(1.0, this.alpha));
-        this.draw();
+
+        if (show_stars) {
+            this.draw();
+        }
     }
 
     draw() {
@@ -178,7 +205,7 @@ class Planet {
 
         if (time_step % dot_timesteps == 0) {
             this.previous_positions.push([this.phys_x, this.phys_y]);
-            if (this.previous_positions.length > num_trail_dots) {
+            while (this.previous_positions.length > num_trail_dots) {
                 this.previous_positions.shift();
             }
         }
@@ -193,6 +220,12 @@ class Planet {
         c.stroke();
         c.fill();
 
+        if (show_trails) {
+            this.draw_trails();
+        }
+    }
+
+    draw_trails() {
         for (var i in this.previous_positions) {
             var x = this.parent.px + (this.previous_positions[i][0] * pixels_per_m);
             var y = this.parent.py + (this.previous_positions[i][1] * pixels_per_m);
@@ -288,15 +321,19 @@ function new_planet_velocity(mass, angle, v, radius, colour, parent, stable) {
 //======= PARAMETERS ======
 var running = true;
 
+var show_stars = true;
+var show_trails = true;
+var show_grid = true;
+
 // planet trail parameters
-const num_trail_dots = 12;
-const dot_timesteps = 7;    // # of frames between trail dots
+var num_trail_dots = 12;
+var dot_timesteps = 7;    // # of frames between trail dots
 const dot_radius_fraction = 1 / 3;  // fraction of the planet's radius for biggest dot
 const dot_scale = (1 / num_trail_dots) * dot_radius_fraction;
 
 // physics parameters
 var time_step = 0;
-const time_scale = 100000;  // higher = faster simulation
+var time_scale = 100000;  // higher = faster simulation
 
 const G = 6.67408 * (10 ** -11);    // gravitational constant
 const AU = 149597870700;    // astronomical unit constant
@@ -309,7 +346,7 @@ var width_m;  // width of the canvas in meters
 var height_m;    // height of the canvas in meters
 var pixels_per_m;  // # of pixels per meter
 rescale(initial_width_AU * AU);
-zoom_slider.value = initial_width_AU;
+zoom_slider.value = zoom_slider.max - initial_width_AU;
 
 
 
@@ -368,7 +405,7 @@ function pause() {
     }
 }
 
-function drawGrid() {
+function draw_grid() {
     var pixels_per_AU = AU * pixels_per_m;
 
     var i1 = sun.px;
@@ -427,7 +464,9 @@ function animate() {
     // clear the canvas
     c.clearRect(0, 0, innerWidth, innerHeight);
 
-    drawGrid();
+    if (show_grid) {
+        draw_grid();
+    }
 
     for (var i in bg_stars) {
         bg_stars[i].update();
