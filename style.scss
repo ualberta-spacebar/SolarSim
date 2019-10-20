@@ -65,6 +65,12 @@ canvas {
             p {
                 display: inline;
                 margin: 0;
+
+                &::after {
+                    content: ' ';
+                    width: 1ex;
+                    display: inline-block;
+                }
             }
 
             input[type=checkbox] {

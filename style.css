@@ -80,6 +80,12 @@ canvas {
   margin: 0;
 }
 
+.overlay .game_settings label p::after {
+  content: ' ';
+  width: 1ex;
+  display: inline-block;
+}
+
 .overlay .game_settings label input[type=checkbox] {
   cursor: pointer;
   position: relative;
