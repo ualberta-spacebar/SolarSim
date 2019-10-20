@@ -14,34 +14,47 @@ html, body {
 canvas {
     background: #111;
     // width: 100%;
-    // height: 100%;
+    height: 100%;
     display: block;
 }
 
-.overlay {
-    width: 20vw;
-    min-width: 200px;
-    height: 80%;
-    background-color: rgba(white,0.8);
+@mixin hud {
+    width: 25vw;
+    min-width: 250px;
+    background-color: rgba(white, 0.8);
     opacity: .3;
-    opacity: 1;
     position: absolute;
-    top: 5px;
     left: 5px;
     border-radius: 3px;
     display: flex;
     flex-direction: column;
     font-family: 'Source Sans Pro', sans-serif;
     overflow: auto;
+    box-sizing: border-box;
     transition: 250ms opacity;
 
     &:hover {
         opacity: 1.0;
     }
+}
+
+.overlay {
+    @include hud;
+    top: 5px;
+    max-height: 85%;
+    padding: 8px 0;
+
+    h2 {
+        display: inline-block;
+        margin: 0 0 0 5px;
+        cursor: pointer;
+        width: 2ex;
+    }
 
     h3 {
         font-family: 'Nasalization' !important;
-        text-align: center;
+        margin: 0 auto;
+        margin-top: -1.5em;
     }
 
     .game_settings {
@@ -52,7 +65,7 @@ canvas {
         display: flex;
         flex-direction: column;
         flex-shrink: 0;
-        margin: 2px 8px;
+        margin: 8px 8px 0 8px;
 
         button {
             width: 50%;
@@ -178,14 +191,6 @@ canvas {
     }
 
     #game_objects {
-        input[type=checkbox]:checked + .characteristics {
-            display: none;
-        }
-
-        characteristics {
-            margin: 0;
-        }
-
         button {
             $dimension: 20px;
             width: $dimension;
@@ -194,4 +199,34 @@ canvas {
             border: 0;
         }
     }
+
+    .object {
+        border-top: 1px solid grey;
+        background-color: rgba(black, 0.05);
+
+        &:nth-last-child(1) {
+            border-bottom: 1px solid grey;
+        }
+
+        &:hover, &:focus-within {
+            background-color: rgba(black, 0.1);
+        }
+
+        label {
+            display: block;
+            width: 100%;
+        }
+
+        #characteristics {
+            margin: 8px 0;
+            padding-left: 20px;
+            list-style-type: none;
+        }
+    }
+}
+
+.github {
+    @include hud;
+    bottom: 5px;
+    padding: 4px;
 }

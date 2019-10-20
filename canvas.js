@@ -43,6 +43,7 @@ function on_time_change(value) {
 function on_zoom_change(value) {
     var val = zoom_slider.max - value;
     rescale(val * AU);
+    sun.zoom = value / 4;
 }
 
 function on_click_stars(value) {
@@ -134,7 +135,7 @@ class BgStar {
 }
 
 class Sun {
-    constructor(mass, radius, colour) {
+    constructor(mass, colour) {
         // physics stuff (distance in m, mass in kg)
         this.phys_x = 0;
         this.phys_y = 0;
@@ -144,9 +145,13 @@ class Sun {
         // drawing stuff
         this.px = canvas.width / 2;
         this.py = canvas.height / 2;
+        this.zoom = document.getElementById("zoom").value / 4;
 
-        this.radius = radius;
         this.colour = colour;
+    }
+
+    get radius() {
+        return this.mass / (10**30) * this.zoom;
     }
 
     draw() {
@@ -372,10 +377,9 @@ for (var i = 0; i < num_stars; i++) {
 
 //======= SUN STUFF ======
 var sun_mass = 2 * (10 ** 30);
-var sun_radius = 40;
 var sun_colour = "#FDB813";
 
-var sun = new Sun(sun_mass, sun_radius, sun_colour);
+var sun = new Sun(sun_mass, sun_colour);
 
 
 

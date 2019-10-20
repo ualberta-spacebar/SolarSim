@@ -12,18 +12,16 @@ html, body {
 
 canvas {
   background: #111;
+  height: 100%;
   display: block;
 }
 
 .overlay {
-  width: 20vw;
-  min-width: 200px;
-  height: 80%;
+  width: 25vw;
+  min-width: 250px;
   background-color: rgba(255, 255, 255, 0.8);
   opacity: .3;
-  opacity: 1;
   position: absolute;
-  top: 5px;
   left: 5px;
   border-radius: 3px;
   display: -webkit-box;
@@ -35,17 +33,30 @@ canvas {
           flex-direction: column;
   font-family: 'Source Sans Pro', sans-serif;
   overflow: auto;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   -webkit-transition: 250ms opacity;
   transition: 250ms opacity;
+  top: 5px;
+  max-height: 85%;
+  padding: 8px 0;
 }
 
 .overlay:hover {
   opacity: 1.0;
 }
 
+.overlay h2 {
+  display: inline-block;
+  margin: 0 0 0 5px;
+  cursor: pointer;
+  width: 2ex;
+}
+
 .overlay h3 {
   font-family: 'Nasalization' !important;
-  text-align: center;
+  margin: 0 auto;
+  margin-top: -1.5em;
 }
 
 .overlay .game_settings {
@@ -62,7 +73,7 @@ canvas {
           flex-direction: column;
   -ms-flex-negative: 0;
       flex-shrink: 0;
-  margin: 2px 8px;
+  margin: 8px 8px 0 8px;
 }
 
 .overlay .game_settings button {
@@ -183,18 +194,63 @@ canvas {
   display: block;
 }
 
-.overlay #game_objects input[type=checkbox]:checked + .characteristics {
-  display: none;
-}
-
-.overlay #game_objects characteristics {
-  margin: 0;
-}
-
 .overlay #game_objects button {
   width: 20px;
   height: 20px;
   padding: 0;
   border: 0;
+}
+
+.overlay .object {
+  border-top: 1px solid grey;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.overlay .object:nth-last-child(1) {
+  border-bottom: 1px solid grey;
+}
+
+.overlay .object:hover, .overlay .object:focus-within {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.overlay .object label {
+  display: block;
+  width: 100%;
+}
+
+.overlay .object #characteristics {
+  margin: 8px 0;
+  padding-left: 20px;
+  list-style-type: none;
+}
+
+.github {
+  width: 25vw;
+  min-width: 250px;
+  background-color: rgba(255, 255, 255, 0.8);
+  opacity: .3;
+  position: absolute;
+  left: 5px;
+  border-radius: 3px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  font-family: 'Source Sans Pro', sans-serif;
+  overflow: auto;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-transition: 250ms opacity;
+  transition: 250ms opacity;
+  bottom: 5px;
+  padding: 4px;
+}
+
+.github:hover {
+  opacity: 1.0;
 }
 /*# sourceMappingURL=style.css.map */

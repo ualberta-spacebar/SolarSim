@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <title>SolarSim</title>
 	<link rel="stylesheet" href="style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" defer></script>
 	<script src="canvas.js" defer></script>
-	
+	<script src="game.js" defer></script>
 	<script src="https://cdn.socket.io/socket.io-1.4.5.js" defer></script>
 	<script defer>
 		var socket = io();
@@ -28,24 +29,25 @@
     <canvas></canvas>
 
 	<div class="overlay">
+		<h2>☰</h2>
 		<h3>CONTROL</h3>
 		<div class="game_settings" id="game_objects">
-			<div class="object">
-				<label class="title">
-					Sun
-				</label>
-				<input type="checkbox">
-				<ul class="characteristics">
-					<li class="para">set1</li>
-					<li class="para">set2</li>
-					<li class="para">set3</li>
+			<button onclick="newObjectControl('Planet_01', 1, 10)">+</button>
+			<div class="object" id="sun">
+				<label>► Sun</label>
+				<ul id="characteristics" style="/*display: none;*/">
+					<li class="para" id="mass">
+						Mass (×10<sup>28</sup> kg) <input type="number">
+					</li>
+					<li class="para" id="temp">
+						Temperature (K) <input type="number">
+					</li>
 				</ul>
 			</div>
-			<button>+</button>
 		</div>
 		<div class="game_settings" id="game_parameters">
 			<button onclick="pause()">Pause</button>
-			<button onclick="happy()">Happy</button>
+			<!--<button onclick="happy()">Happy</button>-->
 			<label>
 				<p>Stars</p>
 				<input type="checkbox" checked="true" onchange=on_click_stars(this.checked)>
@@ -67,6 +69,11 @@
 				<input id="zoom" type="range" min="0.1" max="100" step="any" oninput=on_zoom_change(this.value) onchange=on_zoom_change(this.value)>
 			</label>
 		</div>
+	</div>
+	<div class="github">
+		<a href="https://github.com/ualberta-spacebar/SolarSim/" target="blank">
+			+ GitHub
+		</a>
 	</div>
 
 </body>
