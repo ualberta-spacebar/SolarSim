@@ -415,6 +415,30 @@ function new_planet_velocity(mass, angle, v, radius, colour, parent, stable, lab
     return planet;
 }
 
+function random_planet() {
+    var stable_orbit = true;
+    
+    var mass = (Math.random() * 10) * (10 ** (Math.round(Math.random() * 5) + 23));
+    var angle = (Math.random() * 2) * Math.PI;
+
+    var orbital_radius = ((Math.random() * 5) + 1) * AU;
+    // var velocity = Math.random() * (10 ** 5);
+
+    var radius = map_radius(mass);
+    var colour = '#' + Math.random().toString(16).slice(2, 8).toUpperCase();
+
+    var label = planet_id.toString();
+
+    var planet = new_planet_radius(mass, angle, orbital_radius, radius, colour, sun, stable_orbit, label);
+    // var planet = new_planet_velocity(mass, angle, velocity, radius, colour, sun);
+
+    newObjectControl(planet);
+
+    planets.push(planet);
+
+    planet_id += 1;
+}
+
 
 
 //======= PARAMETERS ======
@@ -485,27 +509,7 @@ var stable_orbit = true;
 var planets = [];
 
 for (var i = 0; i < num_planets; i++) {
-    var mass = (Math.random() * 10) * (10 ** (Math.round(Math.random() * 5) + 23));
-    var angle = (Math.random() * 2) * Math.PI;
-
-    var orbital_radius = ((Math.random() * 5) + 1) * AU;
-    // var velocity = Math.random() * (10 ** 5);
-
-    var radius = map_radius(mass);
-    var colour = '#' + Math.random().toString(16).slice(2, 8).toUpperCase();
-
-    var label = planet_id.toString();
-
-    console.log(label);
-
-    var planet = new_planet_radius(mass, angle, orbital_radius, radius, colour, sun, stable_orbit, label);
-    // var planet = new_planet_velocity(mass, angle, velocity, radius, colour, sun);
-
-    newObjectControl(planet);
-
-    planets.push(planet);
-
-    planet_id += 1;
+    random_planet();
 }
 
 
