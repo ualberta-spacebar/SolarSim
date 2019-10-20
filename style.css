@@ -11,7 +11,7 @@ html, body {
 }
 
 canvas {
-  background: #111;
+  background: #000000;
   height: 100%;
   display: block;
 }
