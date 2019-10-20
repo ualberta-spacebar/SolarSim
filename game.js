@@ -1,4 +1,4 @@
-function newObjectControl(label, mass) {
+function newObjectControl(id) {
     var dock = document.getElementById("game_objects");
     // console.log(dock);
 
@@ -6,13 +6,13 @@ function newObjectControl(label, mass) {
     let obj = document.createElement("div");
     obj.className = "object";
     let l = document.createElement("label");
-    l.innerText = "► " + label;
+    l.innerText = "► Planet" + id;
     // let cb = document.createElement("input")
     // cb.type = "checkbox";
     let ul = document.createElement("ul");
     ul.style.display = "none"
     ul.id = "characteristics";
-    let para = [`Mass (kg) <input type='number' value='${mass}'>`, "Color <input type='color'>"];
+    let para = ["Mass (kg) <input type='number'>", "Color <input type='color'>"];
     for (let p of para) {
         let li = document.createElement("li");
         li.innerHTML = p;
@@ -28,7 +28,7 @@ function newObjectControl(label, mass) {
 
 $(document).ready(function () {
     for (let i = 1; i <= 3; i++) {
-        newObjectControl('Planet_' + i, i * 10);
+        newObjectControl(i);
     }
 
     $(".object label").click(function () {
