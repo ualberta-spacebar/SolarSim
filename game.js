@@ -1,4 +1,4 @@
-function newObjectControl(id) {
+function newObjectControl(planet) {
     var dock = document.getElementById("game_objects");
     // console.log(dock);
 

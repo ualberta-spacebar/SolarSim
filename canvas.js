@@ -501,7 +501,7 @@ for (var i = 0; i < num_planets; i++) {
     var planet = new_planet_radius(mass, angle, orbital_radius, radius, colour, sun, stable_orbit, label);
     // var planet = new_planet_velocity(mass, angle, velocity, radius, colour, sun, stable_orbit);
 
-    newObjectControl(label);
+    newObjectControl(planet);
 
     planets.push(planet);
 
