@@ -31,7 +31,6 @@ canvas {
       -ms-flex-direction: column;
           flex-direction: column;
   font-family: 'Source Sans Pro', sans-serif;
-  overflow: auto;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   -webkit-transition: 250ms opacity;
@@ -58,6 +57,11 @@ canvas {
   font-family: 'Nasalization' !important;
   margin: 0 auto;
   margin-top: -1.5em;
+}
+
+.overlay #game_objects {
+  overflow: auto;
+  max-height: 50vh;
 }
 
 .overlay .game_settings {
@@ -242,7 +246,6 @@ canvas {
       -ms-flex-direction: column;
           flex-direction: column;
   font-family: 'Source Sans Pro', sans-serif;
-  overflow: auto;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   -webkit-transition: 250ms opacity;
