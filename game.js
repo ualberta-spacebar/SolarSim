@@ -6,13 +6,13 @@ function newObjectControl(planet) {
     let obj = document.createElement("div");
     obj.className = "object";
     let l = document.createElement("label");
-    l.innerText = "► Planet " + id;
+    l.innerText = "► Planet " + planet.label;
     // let cb = document.createElement("input")
     // cb.type = "checkbox";
     let ul = document.createElement("ul");
     ul.style.display = "none"
     ul.id = "characteristics";
-    let para = ["Mass (kg) <input type='number'>", "Color <input type='color'>"];
+    let para = [`Mass (kg) <input type='number' value='${planet.mass}'>`, `Color <input type='color' value='${planet.colour}>`];
     for (let p of para) {
         let li = document.createElement("li");
         li.innerHTML = p;
