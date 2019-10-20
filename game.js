@@ -7,6 +7,7 @@ function newObjectControl(planet) {
     obj.className = "object";
     let l = document.createElement("label");
     l.innerText = "► Planet " + planet.label;
+    l.id = planet.label;
     let ul = document.createElement("ul");
     ul.style.display = "none"
     ul.id = "characteristics";
