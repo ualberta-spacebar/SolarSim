@@ -404,7 +404,7 @@ class Planet {
     }
 
     get radius() {
-        return (this.initial_radius / 15) * this.zoom;
+        return (this.initial_radius / 20) * this.zoom;
     }
 
     get zoom() {
@@ -458,7 +458,7 @@ function random_planet() {
     var mass = (Math.random() * 10) * (10 ** (Math.round(Math.random() * 5) + 23));
     var angle = (Math.random() * 2) * Math.PI;
 
-    var orbital_radius = ((Math.random() * 5) + 1) * AU;
+    var orbital_radius = ((Math.random() * 4) + 1) * AU;
     // var velocity = Math.random() * (10 ** 5);
 
     var colour = '#' + Math.random().toString(16).slice(2, 8).toUpperCase();
