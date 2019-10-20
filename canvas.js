@@ -269,6 +269,9 @@ class Planet {
         if ((dist_from_sun + this.radius) < this.parent.radius) {
             this.dead = true;
             this.parent.mass += this.mass;
+
+            let mass_factor = 1e28;
+            $("#sun #mass input")[0].value = Math.round(sun.mass / mass_factor);
         }
 
         if (time_step % dot_timesteps == 0) {
