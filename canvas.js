@@ -36,9 +36,10 @@ function on_time_change(value) {
 }
 
 function on_zoom_change(value) {
-    var val = zoom_slider.max - value;
+    let zoom_max = 100;
+    var val = zoom_max - value;
     rescale(val * AU);
-    sun.zoom = value / 4;
+    sun.zoom = value * pixels_per_m * 2.5e8;
 }
 
 function on_click_stars(value) {
@@ -150,7 +151,7 @@ class Sun {
         // drawing stuff
         this.px = canvas.width / 2;
         this.py = canvas.height / 2;
-        this.zoom = document.getElementById("zoom").value / 4;
+        this.zoom = document.getElementById("zoom").value * pixels_per_m * 2.5e8;
 
         this.colour = colour;
     }
@@ -160,6 +161,12 @@ class Sun {
     }
 
     draw() {
+        //for future drag functionality
+        let mouseX = 0;
+        let mouseY = 0;
+        this.px = canvas.width / 2 + mouseX;
+        this.py = canvas.height / 2 + mouseY;
+
         this.glow();
         c.strokeStyle = this.colour;
         c.fillStyle = this.colour;
@@ -564,7 +571,7 @@ function animate() {
     }
 
     for (var i in planets) {
-        planets[i].update();
+            planets[i].update();
     }
     sun.update();
 
