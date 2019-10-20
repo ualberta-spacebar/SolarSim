@@ -125,7 +125,7 @@ canvas {
 .overlay .game_settings label input[type=range] {
   cursor: pointer;
   width: 100%;
-  background-color: black;
+  background-color: #7f0ceb;
   border-radius: 10px;
 }
 
@@ -165,17 +165,17 @@ canvas {
 }
 
 .overlay .game_settings label input[type=range]::-webkit-slider-runnable-track {
-  background-color: black;
+  background-color: #7f0ceb;
   border-radius: 10px;
 }
 
 .overlay .game_settings label input[type=range]::-moz-range-track {
-  background-color: black;
+  background-color: #7f0ceb;
   border-radius: 10px;
 }
 
 .overlay .game_settings label input[type=range]::-ms-track {
-  background-color: black;
+  background-color: #7f0ceb;
   border-radius: 10px;
 }
 
