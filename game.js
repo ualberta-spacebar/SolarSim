@@ -28,6 +28,7 @@ function newObjectControl(planet) {
 }
 
 function toggling() {
+    $(".object label").off();
     $(".object label").click(function () {
         let t = $(this)[0].innerText;
         if (t[0] == "▼") {
