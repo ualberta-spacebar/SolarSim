@@ -21,11 +21,19 @@ var zoom_slider = document.getElementById("zoom");
 function on_time_change(value) {
     time_scale = value;
 
-    const slowest = 100;
-    const m = -(slowest - 1) / (1000000-10000);
-    const b = slowest + 1;
+    if (value < 20000) {
+        dot_timesteps = 100;
+    } else if (value < 50000) {
+        dot_timesteps = 20;
+    } else if (value < 200000) {
+        dot_timesteps = 8;
+    } else if (value < 500000) {
+        dot_timesteps = 2;
+    } else {
+        dot_timesteps = 1;
+    }
 
-    dot_timesteps = Math.round(m * value + b);
+    // console.log(value, dot_timesteps);
 
     for (var i in planets) {
         planets[i].previous_positions = [];
