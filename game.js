@@ -8,23 +8,22 @@ function newObjectControl(planet) {
     let l = document.createElement("label");
     l.innerText = "► Planet " + planet.label;
     l.id = planet.label;
-    let b = document.createElement("button");
-    b.innerText = "-";
     let ul = document.createElement("ul");
     ul.style.display = "none"
     ul.id = "characteristics";
     let para = {"mass": `Mass (×10<sup>16</sup> kg) <input type='number' id='${planet.label}' value='${planet.mass/1e16}'>`,
-                "color": `Color <input type='color' id='${planet.label}' value='${planet.colour}'>`};
+                "color": `Color <input type='color' id='${planet.label}' value='${planet.colour}'>`,
+                "delete": `<button onclick='get_planet(${planet.label}).dead = true;$(this).parent().parent().parent().hide()'>Delete</button>`
+                };
     for (let p in para) {
         let li = document.createElement("li");
         li.id = p;
         li.innerHTML = para[p];
         ul.appendChild(li);
     }
-
+    
     // add all the stuff to html
     obj.appendChild(l);
-    // obj.appendChild(b);
     // obj.appendChild(cb);
     obj.appendChild(ul);
     dock.appendChild(obj);

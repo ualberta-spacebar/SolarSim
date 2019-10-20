@@ -230,10 +230,26 @@ canvas {
             width: 100%;
         }
 
+        button {
+            width: 55px !important;
+            background-color: red;
+            color: white;
+            filter: brightness(90%);
+
+            &:active {
+                background-color: red;
+                filter: brightness(70%);
+            }
+        }
+
         #characteristics {
             margin: 8px 0;
             padding-left: 20px;
             list-style-type: none;
+
+            li {
+                padding: 4px 0;
+            }
         }
     }
 }
