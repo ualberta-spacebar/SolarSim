@@ -6,7 +6,7 @@ function newObjectControl(id) {
     let obj = document.createElement("div");
     obj.className = "object";
     let l = document.createElement("label");
-    l.innerText = "► Planet" + id;
+    l.innerText = "► Planet " + id;
     // let cb = document.createElement("input")
     // cb.type = "checkbox";
     let ul = document.createElement("ul");
