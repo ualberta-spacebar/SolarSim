@@ -62,13 +62,58 @@ canvas {
         label {
             font-size: 1.1rem;
 
+            p {
+                display: inline;
+                margin: 0;
+            }
+
             input[type=checkbox] {
                 cursor: pointer;
+                position: relative;
+                display: inline-block;
+                -webkit-appearance: none;
+                outline: none;
+                $dimension: 15px;
+                width: $dimension;
+                height: $dimension;
+                top: 0;
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    right: 2px;
+                    width: 100%;
+                    height: 100%;
+                    background-color: black;
+                    border: 2px solid black;
+                    border-radius: 4px;
+                }
+
+                &:hover:before {
+                    content: '';
+                    background-color: rgba(40, 40, 40, 1)
+                }
+
+                &:checked:before {
+                    content: '';
+                    background-color: white;
+                }
+
+                &:focus {
+                    outline: none;
+                }
+
+                &::-moz-focus-outer {
+                    border: none;
+                }
             }
 
             input[type=range] {
                 cursor: pointer;
-                // width: 100%;
+                width: 100%;
+                background-color: black;
+                border-radius: 10px;
 
                 &::-webkit-slider-thumb {
                     -webkit-appearance: none;
@@ -77,11 +122,56 @@ canvas {
                 &:focus {
                     outline: none;
                 }
+
+                &::-moz-focus-outer {
+                    border: none;
+                }
+
+                @mixin range-thumb {
+                    background-color: white;
+                    border: 0;
+                    $dimension: 12px;
+                    height: $dimension;
+                    width: $dimension;
+                }
+
+                @mixin range-slider {
+                    background-color: black;
+                    border-radius: 10px;
+                }
+
+                &::-webkit-slider-thumb{
+                    -webkit-appearance: none;
+                    appearance: none;
+                    @include range-thumb;
+                }
+
+                &::-moz-range-thumb {
+                    @include range-thumb;
+                }
+
+                ::-ms-thumb {
+                    @include range-thumb;
+                }
+
+                &::-webkit-slider-runnable-track {
+                    @include range-slider;
+                }
+
+                &::-moz-range-track {
+                    @include range-slider;
+                }
+
+                &::-ms-track {
+                    @include range-slider;
+                }
             }
         }
 
         .sliders {
-            // stuff
+            p {
+                display: block;
+            }
         }
     }
 }
