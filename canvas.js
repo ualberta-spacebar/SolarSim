@@ -11,6 +11,8 @@ canvas.height = window.innerHeight;
 var c = canvas.getContext("2d");
 
 //======= INITIAL HTML STUFF ======
+var pause_button = document.getElementById("pause_button");
+
 var time_slider = document.getElementById("time");
 
 var zoom_slider = document.getElementById("zoom");
@@ -63,6 +65,15 @@ function on_click_habitable(value) {
     show_habitable = value;
 }
 
+function pause() {
+    running = !running;
+    if (running) {
+        pause_button.textContent = "Pause"
+        animate();
+    } else {
+        pause_button.textContent = "Resume"
+    }
+}
 
 
 //======= HELPER FUNCTIONS ======
@@ -98,6 +109,15 @@ function rescale(width) {
     pixels_per_m = canvas.width / width_m;
 }
 
+function draw_circle(x, y, radius, colour) {
+    c.strokeStyle = colour;
+    c.fillStyle = colour;
+    c.beginPath();
+    c.arc(x, y, radius, 0, Math.PI * 2, false);
+    c.stroke();
+    c.fill();
+}
+
 
 
 //======= CLASS DEFINITIONS ======
@@ -128,10 +148,7 @@ class BgStar {
     }
 
     draw() {
-        c.beginPath();
-        c.arc(this.px, this.py, this.radius, 0, Math.PI * 2);
-        c.fillStyle = this.colour;
-        c.fill();
+        draw_circle(this.px, this.py, this.radius, this.colour);
     }
 
     get colour() {
@@ -151,29 +168,18 @@ class Sun {
         // drawing stuff
         this.px = canvas.width / 2;
         this.py = canvas.height / 2;
-        this.zoom = document.getElementById("zoom").value * pixels_per_m * 2.5e8;
+        // this.zoom = document.getElementById("zoom").value * pixels_per_m * 2.5e8;
 
         this.colour = colour;
     }
 
     get radius() {
-        return this.mass / (10**30) * this.zoom;
+        return (Math.sqrt(this.mass / (10**30)) + 1) * this.zoom;
     }
 
     draw() {
-        //for future drag functionality
-        let mouseX = 0;
-        let mouseY = 0;
-        this.px = canvas.width / 2 + mouseX;
-        this.py = canvas.height / 2 + mouseY;
-
         this.glow();
-        c.strokeStyle = this.colour;
-        c.fillStyle = this.colour;
-        c.beginPath();
-        c.arc(this.px, this.py, this.radius, 0, Math.PI * 2, false);
-        c.stroke();
-        c.fill();
+        draw_circle(this.px, this.py, this.radius, this.colour);
     }
 
     glow() {
@@ -192,22 +198,17 @@ class Sun {
         var start = ((this.phys_x + this.habitable_start) * pixels_per_m);
         var end = ((this.phys_x + this.habitable_end) * pixels_per_m);
 
-        c.strokeStyle = "#1a1a1a";
-        c.fillStyle = "#1a1a1a";
-        c.beginPath();
-        c.arc(this.px, this.py, end, 0, Math.PI * 2, false);
-        c.stroke();
-        c.fill();
-
-        c.strokeStyle = "#111";
-        c.fillStyle = "#111";
-        c.beginPath();
-        c.arc(this.px, this.py, start, 0, Math.PI * 2, false);
-        c.stroke();
-        c.fill();
+        draw_circle(this.px, this.py, end, "#1a1a1a");
+        draw_circle(this.px, this.py, start, "#111");
     }
 
     update() {
+        //for future drag functionality
+        // let mouseX = 0;
+        // let mouseY = 0;
+        // this.px = canvas.width / 2 + mouseX;
+        // this.py = canvas.height / 2 + mouseY;
+
         this.px = canvas.width / 2;
         this.py = canvas.height / 2;
 
@@ -224,6 +225,10 @@ class Sun {
 
     get habitable_end() {
         return (this.habitable_midpoint + 0.725) * AU;
+    }
+
+    get zoom() {
+        return document.getElementById("zoom").value * pixels_per_m * 2.5e8;
     }
 }
 
@@ -260,9 +265,13 @@ class Planet {
             this.draw_trails();
         }
 
-        if (Math.abs(this.px - this.parent.px) + this.radius < this.parent.radius && Math.abs(this.py - this.parent.py) + this.radius < this.parent.radius) {
+        var dist_from_sun = Math.sqrt(((this.px - this.parent.px) ** 2) + ((this.py - this.parent.py) ** 2));
+        if (dist_from_sun < this.parent.radius) {
             this.dead = true;
             this.parent.mass += this.mass;
+
+            let mass_factor = 1e28;
+            $("#sun #mass input")[0].value = Math.round(sun.mass / mass_factor);
         }
 
         if (time_step % dot_timesteps == 0) {
@@ -276,20 +285,11 @@ class Planet {
         this.py = this.parent.py + (this.phys_y * pixels_per_m);
 
         if (this.highlighted) {
-            c.strokeStyle = "rgba(255,255,255,"+this.highlight_alpha+")";
-            c.fillStyle = "rgba(255,255,255,"+this.highlight_alpha+")";
-            c.beginPath();
-            c.arc(this.px, this.py, this.radius + 3, 0, Math.PI * 2, false);
-            c.stroke();
-            c.fill();
+            var colour = "rgba(255,255,255,"+this.highlight_alpha+")";
+            draw_circle(this.px, this.py, this.radius + 3, colour);
         }
 
-        c.strokeStyle = this.colour;
-        c.fillStyle = this.colour;
-        c.beginPath();
-        c.arc(this.px, this.py, this.radius, 0, Math.PI * 2, false);
-        c.stroke();
-        c.fill();
+        draw_circle(this.px, this.py, this.radius, this.colour);
     }
 
     draw_trails() {
@@ -297,21 +297,16 @@ class Planet {
             var x = this.parent.px + (this.previous_positions[i][0] * pixels_per_m);
             var y = this.parent.py + (this.previous_positions[i][1] * pixels_per_m);
 
+            var radius;
+
             if (this.highlighted) {
-                c.strokeStyle = "rgba(255,255,255,"+this.highlight_alpha+")";
-                c.fillStyle = "rgba(255,255,255,"+this.highlight_alpha+")";
-                c.beginPath();
-                c.arc(x, y, (i * this.radius * dot_scale) + 1, 0, Math.PI * 2, false);
-                c.stroke();
-                c.fill();
+                radius = (i * this.radius * dot_scale) + 1;
+                var colour = "rgba(255,255,255,"+this.highlight_alpha+")";
+                draw_circle(x, y, radius, colour);
             }
 
-            c.strokeStyle = this.colour;
-            c.fillStyle = this.colour;
-            c.beginPath();
-            c.arc(x, y, i * this.radius * dot_scale, 0, Math.PI * 2, false);
-            c.stroke();
-            c.fill();
+            radius = i * this.radius * dot_scale;
+            draw_circle(x, y, radius, this.colour);
         }
     }
 
@@ -319,6 +314,11 @@ class Planet {
         if (!this.dead) {
             this.apply_physics();
             this.draw();
+        } else {
+            if (this.previous_positions.length > 0) {
+                this.draw_trails();
+                this.previous_positions.shift();
+            }
         }
     }
 
@@ -492,13 +492,6 @@ for (var i = 0; i < num_planets; i++) {
 
 
 //======= CANVAS STUFF ======
-function pause() {
-    running = !running;
-    if (running) {
-        animate();
-    }
-}
-
 function draw_grid() {
     var pixels_per_AU = AU * pixels_per_m;
 

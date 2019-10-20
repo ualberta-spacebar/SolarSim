@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>SolarSim</title>
+    <link href="./favicon.ico" rel="icon" type="image/x-icon" />
 	<link rel="stylesheet" href="style.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" defer></script>
 	<script src="canvas.js" defer></script>
@@ -46,8 +47,7 @@
 			</div>
 		</div>
 		<div class="game_settings" id="game_parameters">
-			<button onclick="pause()">Pause</button>
-			<!--<button onclick="happy()">Happy</button>-->
+			<button id="pause_button" onclick="pause()">Pause</button>
 			<label>
 				<p>Stars</p>
 				<input type="checkbox" checked="true" onchange=on_click_stars(this.checked)>

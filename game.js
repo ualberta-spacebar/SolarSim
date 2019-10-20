@@ -43,9 +43,14 @@ $(document).ready(function () {
 
     // sun values
     let mass_factor = 1e28;
-    $("#sun #mass input")[0].value = Math.round(sun.mass / mass_factor);
-    $("#sun #mass input").change(function () {
+    $("#sun #mass input")[0].value = Math.round(sun.mass / mass_factor);    // set value
+    $("#sun #mass input").change(function () {      // on change do this
         sun.mass = parseInt(this.value, 10) * mass_factor;
+    });
+
+    $("#sun #temp input")[0].value = Math.round(sun.temperature);   // set value
+    $("#sun #temp input").change(function () {      // on change do this
+        sun.temperature = parseInt(this.value, 10);
     });
 
     $(".overlay h2").click(function () {
