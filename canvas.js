@@ -174,7 +174,7 @@ class Sun {
     }
 
     get radius() {
-        return (this.mass / (10**30)) * this.zoom;
+        return (Math.sqrt(this.mass / (10**30)) + 1) * this.zoom;
     }
 
     draw() {
