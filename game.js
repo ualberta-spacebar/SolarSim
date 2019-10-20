@@ -70,6 +70,13 @@ $(document).ready(function () {
         sun.temperature = parseInt(this.value, 10);
     });
 
+    $("#sun #name input").change(function () {
+        $(this).innerText = $(this).value;
+        if ($(this).innerText == "") {
+            $(this).innerText = "Sun";
+        }
+    });
+
     $(".overlay h2").click(function () {
         $(".game_settings").slideToggle("slow");
     });
