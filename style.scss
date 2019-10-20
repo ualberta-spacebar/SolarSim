@@ -23,7 +23,8 @@ canvas {
     min-width: 200px;
     height: 80%;
     background-color: rgba(white,0.8);
-    opacity: .4;
+    opacity: .3;
+    opacity: 1;
     position: absolute;
     top: 5px;
     left: 5px;
@@ -31,13 +32,11 @@ canvas {
     display: flex;
     flex-direction: column;
     font-family: 'Source Sans Pro', sans-serif;
+    overflow: auto;
+    transition: 250ms opacity;
 
     &:hover {
         opacity: 1.0;
-    }
-
-    * {
-        margin: 2px 8px;
     }
 
     h3 {
@@ -52,10 +51,33 @@ canvas {
         padding: 4px;
         display: flex;
         flex-direction: column;
+        flex-shrink: 0;
+        margin: 2px 8px;
 
         button {
             width: 50%;
             box-sizing: border-box;
+        }
+
+        label {
+            font-size: 1.1rem;
+
+            input[type=checkbox] {
+                cursor: pointer;
+            }
+
+            input[type=range] {
+                cursor: pointer;
+                // width: 100%;
+
+                &::-webkit-slider-thumb {
+                    -webkit-appearance: none;
+                }
+
+                &:focus {
+                    outline: none;
+                }
+            }
         }
     }
 }
