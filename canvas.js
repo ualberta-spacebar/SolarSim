@@ -115,12 +115,25 @@ class Sun {
     }
 
     draw() {
+        this.glow();
         c.strokeStyle = this.colour;
         c.fillStyle = this.colour;
         c.beginPath();
         c.arc(this.px, this.py, this.radius, 0, Math.PI * 2, false);
         c.stroke();
         c.fill();
+    }
+
+    glow() {
+        let glow = this.radius * 2.5;
+        // Create gradient
+        var grd = c.createRadialGradient(this.px, this.py, 0, this.px, this.py, glow);
+        grd.addColorStop(0, this.colour);
+        grd.addColorStop(1, "rgba(0, 0, 0, 0)");
+
+        // Fill with gradient
+        c.fillStyle = grd;
+        c.fillRect(this.px - glow, this.py - glow, this.px + glow, this.px + glow);
     }
 
     update() {

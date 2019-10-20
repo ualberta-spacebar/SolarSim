@@ -20,7 +20,8 @@ canvas {
   min-width: 200px;
   height: 80%;
   background-color: rgba(255, 255, 255, 0.8);
-  opacity: .4;
+  opacity: .3;
+  opacity: 1;
   position: absolute;
   top: 5px;
   left: 5px;
@@ -33,14 +34,13 @@ canvas {
       -ms-flex-direction: column;
           flex-direction: column;
   font-family: 'Source Sans Pro', sans-serif;
+  overflow: auto;
+  -webkit-transition: 250ms opacity;
+  transition: 250ms opacity;
 }
 
 .overlay:hover {
   opacity: 1.0;
-}
-
-.overlay * {
-  margin: 2px 8px;
 }
 
 .overlay h3 {
@@ -60,11 +60,34 @@ canvas {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  margin: 2px 8px;
 }
 
 .overlay .game_settings button {
   width: 50%;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+}
+
+.overlay .game_settings label {
+  font-size: 1.1rem;
+}
+
+.overlay .game_settings label input[type=checkbox] {
+  cursor: pointer;
+}
+
+.overlay .game_settings label input[type=range] {
+  cursor: pointer;
+}
+
+.overlay .game_settings label input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+
+.overlay .game_settings label input[type=range]:focus {
+  outline: none;
 }
 /*# sourceMappingURL=style.css.map */
