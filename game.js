@@ -30,8 +30,10 @@ function toggling() {
         let t = $(this)[0].innerText;
         if (t[0] == "▼") {
             $(this)[0].innerText = "►" + t.substring(1);
+            get_planet($(this)[0].id).highlighted = false;
         } else {
             $(this)[0].innerText = "▼" + t.substring(1);
+            get_planet($(this)[0].id).highlighted = true;
         }
         $(" ~ #characteristics", this).slideToggle();
     });
