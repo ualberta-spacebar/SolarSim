@@ -19,9 +19,9 @@ canvas {
 }
 
 @mixin hud {
-    width: 25vw;
-    min-width: 250px;
-    background-color: rgba(white, 0.8);
+    $color: rgb(77, 77, 77);
+    background-color: rgba($color, 0.75);
+    color: white;
     opacity: .3;
     position: absolute;
     left: 5px;
@@ -40,6 +40,8 @@ canvas {
 
 .overlay {
     @include hud;
+    width: 25vw;
+    min-width: 250px;
     top: 5px;
     max-height: 85%;
     padding: 8px 0;
@@ -230,4 +232,14 @@ canvas {
     @include hud;
     bottom: 5px;
     padding: 4px;
+
+    a {
+        color: inherit;
+        font-size: 1.6rem;
+        text-decoration: none;
+    }
+
+    &:hover a {
+        text-decoration: underline;
+    }
 }

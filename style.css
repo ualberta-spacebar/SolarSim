@@ -17,9 +17,8 @@ canvas {
 }
 
 .overlay {
-  width: 25vw;
-  min-width: 250px;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(77, 77, 77, 0.75);
+  color: white;
   opacity: .3;
   position: absolute;
   left: 5px;
@@ -37,6 +36,8 @@ canvas {
           box-sizing: border-box;
   -webkit-transition: 250ms opacity;
   transition: 250ms opacity;
+  width: 25vw;
+  min-width: 250px;
   top: 5px;
   max-height: 85%;
   padding: 8px 0;
@@ -227,9 +228,8 @@ canvas {
 }
 
 .github {
-  width: 25vw;
-  min-width: 250px;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(77, 77, 77, 0.75);
+  color: white;
   opacity: .3;
   position: absolute;
   left: 5px;
@@ -253,5 +253,15 @@ canvas {
 
 .github:hover {
   opacity: 1.0;
+}
+
+.github a {
+  color: inherit;
+  font-size: 1.6rem;
+  text-decoration: none;
+}
+
+.github:hover a {
+  text-decoration: underline;
 }
 /*# sourceMappingURL=style.css.map */
