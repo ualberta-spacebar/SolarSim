@@ -266,7 +266,7 @@ class Planet {
         }
 
         var dist_from_sun = Math.sqrt(((this.px - this.parent.px) ** 2) + ((this.py - this.parent.py) ** 2));
-        if ((dist_from_sun + this.radius) < this.parent.radius) {
+        if (dist_from_sun < this.parent.radius) {
             this.dead = true;
             this.parent.mass += this.mass;
 
