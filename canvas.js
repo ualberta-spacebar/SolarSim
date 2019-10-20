@@ -453,8 +453,6 @@ function new_planet_velocity(mass, angle, v, colour, parent, stable, label) {
 }
 
 function random_planet() {
-    var stable_orbit = true;
-    
     var mass = (Math.random() * 10) * (10 ** (Math.round(Math.random() * 5) + 23));
     var angle = (Math.random() * 2) * Math.PI;
 
@@ -521,7 +519,7 @@ on_time_change(86400);
 const G = 6.67408 * (10 ** -11);    // gravitational constant
 const AU = 149597870700;    // astronomical unit constant
 
-const orbit_instability = 0.4;  // how messed up orbits are when created
+var orbit_instability = 0.4;  // how messed up orbits are when created
 
 // canvas scaling
 var initial_width_AU = 12;
@@ -555,17 +553,29 @@ var sun = new Sun(sun_mass, sun_temp);
 
 //======= PLANET STUFF ======
 const planet_scale = 0.6;
-var num_planets = 5;
 
+var num_planets;
+var stable_orbit;
 var planet_id = 1;
-var stable_orbit = true;
-
 var planets = [];
 
-for (var i = 0; i < num_planets; i++) {
+var rng = Math.random();
+if (rng < 0.1) {
+    num_planets = Math.round(Math.random() * 50) + 50;
+} else {
+    num_planets = Math.round(Math.random() * 5) + 3;
+}
+
+stable_orbit = true;
+for (var i = 0; i < Math.ceil(num_planets / 2); i++) {
     random_planet();
 }
 
+stable_orbit = false;
+for (var i = 0; i < Math.floor(num_planets / 2); i++) {
+    orbit_instability = Math.random() * 2;
+    random_planet();
+}
 
 
 //======= CANVAS STUFF ======
