@@ -14,20 +14,27 @@ var c = canvas.getContext("2d");
 
 //======= INITIAL HTML STUFF ======
 var time_slider = document.getElementById("time");
+time_slider.value = time_scale;
+
 var zoom_slider = document.getElementById("zoom");
 
 function on_time_change(value) {
     time_scale = value;
 
-    const slowest = 70;
+    const slowest = 100;
     const m = -(slowest - 1) / (1000000-10000);
     const b = slowest + 1;
 
     dot_timesteps = Math.round(m * value + b);
+
+    for (var i in planets) {
+        planets[i].previous_positions = [];
+    }
 }
 
 function on_zoom_change(value) {
-    rescale(value * AU);
+    var val = zoom_slider.max - value;
+    rescale(val * AU);
 }
 
 function on_click_stars(value) {
