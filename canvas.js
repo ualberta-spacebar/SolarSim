@@ -26,7 +26,6 @@ function on_zoom_change(value) {
 }
 
 function on_click_stars(value) {
-    console.log(value);
     show_stars = value;
 }
 
