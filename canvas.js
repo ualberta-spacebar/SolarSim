@@ -10,11 +10,8 @@ canvas.height = window.innerHeight;
 // used to draw on the canvas
 var c = canvas.getContext("2d");
 
-
-
 //======= INITIAL HTML STUFF ======
 var time_slider = document.getElementById("time");
-time_slider.value = time_scale;
 
 var zoom_slider = document.getElementById("zoom");
 
@@ -33,10 +30,8 @@ function on_time_change(value) {
         dot_timesteps = 1;
     }
 
-    // console.log(value, dot_timesteps);
-
     for (var i in planets) {
-        planets[i].previous_positions = [];
+        planets[i].clear_trail();
     }
 }
 
@@ -52,10 +47,19 @@ function on_click_stars(value) {
 
 function on_click_trails(value) {
     show_trails = value;
+    if (show_trails) {
+        for (var i in planets) {
+            planets[i].clear_trail();
+        }
+    }
 }
 
 function on_click_grid(value) {
     show_grid = value;
+}
+
+function on_click_habitable(value) {
+    show_habitable = value;
 }
 
 
@@ -135,12 +139,13 @@ class BgStar {
 }
 
 class Sun {
-    constructor(mass, colour) {
+    constructor(mass, temperature, colour) {
         // physics stuff (distance in m, mass in kg)
         this.phys_x = 0;
         this.phys_y = 0;
 
         this.mass = mass;
+        this.temperature = temperature; // kelvin
 
         // drawing stuff
         this.px = canvas.width / 2;
@@ -176,11 +181,42 @@ class Sun {
         c.fillRect(this.px - glow, this.py - glow, this.px + glow, this.px + glow);
     }
 
+    draw_habitable() {
+        var start = ((this.phys_x + this.habitable_start) * pixels_per_m);
+        var end = ((this.phys_x + this.habitable_end) * pixels_per_m);
+
+        c.strokeStyle = "#1a1a1a";
+        c.fillStyle = "#1a1a1a";
+        c.beginPath();
+        c.arc(this.px, this.py, end, 0, Math.PI * 2, false);
+        c.stroke();
+        c.fill();
+
+        c.strokeStyle = "#111";
+        c.fillStyle = "#111";
+        c.beginPath();
+        c.arc(this.px, this.py, start, 0, Math.PI * 2, false);
+        c.stroke();
+        c.fill();
+    }
+
     update() {
         this.px = canvas.width / 2;
         this.py = canvas.height / 2;
 
         this.draw();
+    }
+
+    get habitable_midpoint() {
+        return 1.6775 * (this.temperature / 5778);
+    }
+
+    get habitable_start() {
+        return (this.habitable_midpoint - 0.725) * AU;
+    }
+
+    get habitable_end() {
+        return (this.habitable_midpoint + 0.725) * AU;
     }
 }
 
@@ -208,9 +244,15 @@ class Planet {
         this.previous_positions = [];
 
         this.dead = false;
+
+        this.highlighted = false;
     }
 
     draw() {
+        if (show_trails) {
+            this.draw_trails();
+        }
+
         if (Math.abs(this.px - this.parent.px) + this.radius < this.parent.radius && Math.abs(this.py - this.parent.py) + this.radius < this.parent.radius) {
             this.dead = true;
             this.parent.mass += this.mass;
@@ -226,22 +268,36 @@ class Planet {
         this.px = this.parent.px + (this.phys_x * pixels_per_m);
         this.py = this.parent.py + (this.phys_y * pixels_per_m);
 
+        if (this.highlighted) {
+            c.strokeStyle = "rgba(255,255,255,"+this.highlight_alpha+")";
+            c.fillStyle = "rgba(255,255,255,"+this.highlight_alpha+")";
+            c.beginPath();
+            c.arc(this.px, this.py, this.radius + 3, 0, Math.PI * 2, false);
+            c.stroke();
+            c.fill();
+        }
+
         c.strokeStyle = this.colour;
         c.fillStyle = this.colour;
         c.beginPath();
         c.arc(this.px, this.py, this.radius, 0, Math.PI * 2, false);
         c.stroke();
         c.fill();
-
-        if (show_trails) {
-            this.draw_trails();
-        }
     }
 
     draw_trails() {
         for (var i in this.previous_positions) {
             var x = this.parent.px + (this.previous_positions[i][0] * pixels_per_m);
             var y = this.parent.py + (this.previous_positions[i][1] * pixels_per_m);
+
+            if (this.highlighted) {
+                c.strokeStyle = "rgba(255,255,255,"+this.highlight_alpha+")";
+                c.fillStyle = "rgba(255,255,255,"+this.highlight_alpha+")";
+                c.beginPath();
+                c.arc(x, y, (i * this.radius * dot_scale) + 1, 0, Math.PI * 2, false);
+                c.stroke();
+                c.fill();
+            }
 
             c.strokeStyle = this.colour;
             c.fillStyle = this.colour;
@@ -274,6 +330,10 @@ class Planet {
         console.log("Angle", this.angle);
     }
 
+    clear_trail() {
+        this.previous_positions = [];
+    }
+
     // calculate the distance between the centers of the sun and planet
     get orbital_distance() {
         var squared_distance = (this.phys_x ** 2) + (this.phys_y ** 2);
@@ -286,6 +346,15 @@ class Planet {
 
     get angle() {
         return Math.atan2(this.phys_y, this.phys_x);
+    }
+
+    get highlight_alpha() {
+        var x = (time_step % highlight_length);
+        if (x <= (highlight_length / 2)) {
+            return x / (highlight_length / 2);
+        } else {
+            return (highlight_length - x) / (highlight_length / 2);
+        }
     }
 }
 
@@ -337,6 +406,9 @@ var running = true;
 var show_stars = true;
 var show_trails = true;
 var show_grid = true;
+var show_habitable = true;
+
+const highlight_length = 16;    // # of frames for highlight to cycle
 
 // planet trail parameters
 var num_trail_dots = 12;
@@ -346,7 +418,9 @@ const dot_scale = (1 / num_trail_dots) * dot_radius_fraction;
 
 // physics parameters
 var time_step = 0;
-var time_scale = 100000;  // higher = faster simulation
+var time_scale;  // higher = faster simulation
+time_slider.value = 86400;
+on_time_change(86400);
 
 const G = 6.67408 * (10 ** -11);    // gravitational constant
 const AU = 149597870700;    // astronomical unit constant
@@ -377,9 +451,10 @@ for (var i = 0; i < num_stars; i++) {
 
 //======= SUN STUFF ======
 var sun_mass = 2 * (10 ** 30);
+var sun_temp = 5778;
 var sun_colour = "#FDB813";
 
-var sun = new Sun(sun_mass, sun_colour);
+var sun = new Sun(sun_mass, sun_temp, sun_colour);
 
 
 
@@ -475,6 +550,10 @@ function animate() {
 
     // clear the canvas
     c.clearRect(0, 0, innerWidth, innerHeight);
+
+    if (show_habitable) {
+        sun.draw_habitable();
+    }
 
     if (show_grid) {
         draw_grid();

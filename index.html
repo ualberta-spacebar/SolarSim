@@ -35,7 +35,7 @@
 			<button onclick="newObjectControl('Planet_01', 1, 10)">+</button>
 			<div class="object" id="sun">
 				<label>► Sun</label>
-				<ul id="characteristics" style="/*display: none;*/">
+				<ul id="characteristics">
 					<li class="para" id="mass">
 						Mass (×10<sup>28</sup> kg) <input type="number">
 					</li>
@@ -59,6 +59,10 @@
 			<label>
 				<p>Grid</p>
 				<input type="checkbox" checked="true" onchange=on_click_grid(this.checked)>
+            </label>
+            <label>
+				<p>Habitable Zone</p>
+				<input type="checkbox" checked="true" onchange=on_click_habitable(this.checked)>
 			</label>
 			<label class="sliders">
 				<p>Time Scale</p>
