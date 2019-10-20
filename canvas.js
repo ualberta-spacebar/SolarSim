@@ -527,7 +527,7 @@ zoom_slider.value = zoom_slider.max - initial_width_AU;
 
 
 //======= BACKGROUND STAR STUFF ======
-const twinkliness = 0.1;    // higher = more twinkly
+const twinkliness = 0.05;    // higher = more twinkly
 var num_stars = 1500;
 
 var bg_stars = [];
