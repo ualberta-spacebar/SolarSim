@@ -220,7 +220,27 @@ class Sun {
         this.px = canvas.width / 2;
         this.py = canvas.height / 2;
 
+        this.update_temperature();
+
         this.draw();
+    }
+
+    update_temperature() {
+        if (this.temperature < 3700) {
+            this.colour = "#ffb061";
+        } else if (this.temperature < 5200) {
+            this.colour = "#ffbb61";
+        } else if (this.temperature < 6000) {
+            this.colour = "#ffdb87";
+        } else if (this.temperature < 7500) {
+            this.colour = "#fff0cc";
+        } else if (this.temperature < 10000) {
+            this.colour = "#fff4d9";
+        } else if (this.temperature < 30000) {
+            this.colour = "#a3c7ff";
+        } else {
+            this.colour = "#8aabff";
+        }
     }
 
     get habitable_midpoint() {
