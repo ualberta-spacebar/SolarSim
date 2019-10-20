@@ -176,4 +176,22 @@ canvas {
             }
         }
     }
+
+    #game_objects {
+        input[type=checkbox]:checked + .characteristics {
+            display: none;
+        }
+
+        characteristics {
+            margin: 0;
+        }
+
+        button {
+            $dimension: 20px;
+            width: $dimension;
+            height: $dimension;
+            padding: 0;
+            border: 0;
+        }
+    }
 }
