@@ -75,7 +75,13 @@ canvas {
 
         button {
             width: 50%;
+            background-color: white;
             box-sizing: border-box;
+            border-radius: 3px;
+
+            &:active {
+                background-color: grey;
+            }
         }
 
         label {

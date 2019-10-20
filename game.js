@@ -8,6 +8,8 @@ function newObjectControl(planet) {
     let l = document.createElement("label");
     l.innerText = "► Planet " + planet.label;
     l.id = planet.label;
+    let b = document.createElement("button");
+    b.innerText = "-";
     let ul = document.createElement("ul");
     ul.style.display = "none"
     ul.id = "characteristics";
@@ -22,6 +24,7 @@ function newObjectControl(planet) {
 
     // add all the stuff to html
     obj.appendChild(l);
+    // obj.appendChild(b);
     // obj.appendChild(cb);
     obj.appendChild(ul);
     dock.appendChild(obj);

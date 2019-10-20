@@ -83,8 +83,14 @@ canvas {
 
 .overlay .game_settings button {
   width: 50%;
+  background-color: white;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  border-radius: 3px;
+}
+
+.overlay .game_settings button:active {
+  background-color: grey;
 }
 
 .overlay .game_settings label {
