@@ -165,7 +165,7 @@ class BgStar {
 }
 
 class Sun {
-    constructor(mass, temperature, colour) {
+    constructor(mass, temperature) {
         // physics stuff (distance in m, mass in kg)
         this.phys_x = 0;
         this.phys_y = 0;
@@ -177,8 +177,6 @@ class Sun {
         this.px = canvas.width / 2;
         this.py = canvas.height / 2;
         // this.zoom = document.getElementById("zoom").value * pixels_per_m * 2.5e8;
-
-        this.colour = colour;
     }
 
     get radius() {
@@ -220,26 +218,24 @@ class Sun {
         this.px = canvas.width / 2;
         this.py = canvas.height / 2;
 
-        this.update_temperature();
-
         this.draw();
     }
 
-    update_temperature() {
+    get colour() {
         if (this.temperature < 3700) {
-            this.colour = "#ffb061";
+            return "#ffb061";
         } else if (this.temperature < 5200) {
-            this.colour = "#ffbb61";
+            return "#ffbb61";
         } else if (this.temperature < 6000) {
-            this.colour = "#ffdb87";
+            return "#ffdb87";
         } else if (this.temperature < 7500) {
-            this.colour = "#fff0cc";
+            return "#fff0cc";
         } else if (this.temperature < 10000) {
-            this.colour = "#fff4d9";
+            return "#fff4d9";
         } else if (this.temperature < 30000) {
-            this.colour = "#a3c7ff";
+            return "#a3c7ff";
         } else {
-            this.colour = "#8aabff";
+            return "#8aabff";
         }
     }
 
@@ -541,9 +537,8 @@ for (var i = 0; i < num_stars; i++) {
 //======= SUN STUFF ======
 var sun_mass = 2 * (10 ** 30);
 var sun_temp = 5778;
-var sun_colour = "#FDB813";
 
-var sun = new Sun(sun_mass, sun_temp, sun_colour);
+var sun = new Sun(sun_mass, sun_temp);
 
 
 
