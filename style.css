@@ -216,6 +216,7 @@ canvas {
 
 .overlay .object label {
   display: block;
+  cursor: pointer;
   width: 100%;
 }
 
