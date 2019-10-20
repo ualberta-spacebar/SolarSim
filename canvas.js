@@ -223,9 +223,9 @@ class Sun {
 
     get colour() {
         if (this.temperature < 3700) {
-            return "#ffb061";
+            return "#dd4c3b";
         } else if (this.temperature < 5200) {
-            return "#ffbb61";
+            return "#ff9a14";
         } else if (this.temperature < 6000) {
             return "#ffdb87";
         } else if (this.temperature < 7500) {
