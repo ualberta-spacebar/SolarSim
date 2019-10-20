@@ -83,6 +83,7 @@ canvas {
                 width: $dimension;
                 height: $dimension;
                 top: 0;
+                $color: rgb(127, 12, 235);
 
                 &::before {
                     content: '';
@@ -91,19 +92,14 @@ canvas {
                     right: 2px;
                     width: 100%;
                     height: 100%;
-                    background-color: black;
-                    border: 2px solid black;
+                    background-color: white;
+                    border: 2px solid rgba(rgb(127, 12, 235), 0.7);
                     border-radius: 4px;
-                }
-
-                &:hover:before {
-                    content: '';
-                    background-color: rgba(40, 40, 40, 1)
                 }
 
                 &:checked:before {
                     content: '';
-                    background-color: white;
+                    background-color: $color;
                 }
 
                 &:focus {
