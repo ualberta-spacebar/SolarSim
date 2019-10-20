@@ -261,7 +261,7 @@ class Sun {
 }
 
 class Planet {
-    constructor(phys_x, phys_y, mass, vx, vy, radius, colour, parent, label) {
+    constructor(phys_x, phys_y, mass, vx, vy, colour, parent, label) {
         this.label = label;
 
         this.parent = parent;
@@ -279,7 +279,6 @@ class Planet {
         this.px = this.parent.px + (this.phys_x * pixels_per_m);
         this.py = this.parent.py + (this.phys_y * pixels_per_m);
 
-        this.radius = radius;
         this.colour = colour;
 
         // for trails
@@ -400,6 +399,10 @@ class Planet {
             return (highlight_length - x) / (highlight_length / 2);
         }
     }
+
+    get radius() {
+        return map_radius(this.mass);
+    }
 }
 
 
@@ -407,7 +410,7 @@ class Planet {
 //======= PLANET CREATION FUNCTIONS ======
 
 // create a planet with orbital radius, solve for velocity
-function new_planet_radius(mass, angle, orbital_radius, radius, colour, parent, stable, label) {
+function new_planet_radius(mass, angle, orbital_radius, colour, parent, stable, label) {
     var phys_x = orbital_radius * Math.cos(angle);
     var phys_y = orbital_radius * Math.sin(angle);
 
@@ -420,12 +423,12 @@ function new_planet_radius(mass, angle, orbital_radius, radius, colour, parent, 
     var vx = v * Math.cos((Math.PI / 2) - angle);
     var vy = -v * Math.sin((Math.PI / 2) - angle);
 
-    var planet = new Planet(phys_x, phys_y, mass, vx, vy, radius, colour, parent, label);
+    var planet = new Planet(phys_x, phys_y, mass, vx, vy, colour, parent, label);
     return planet;
 }
 
 // create a planet with velocity, solve for orbital radius
-function new_planet_velocity(mass, angle, v, radius, colour, parent, stable, label) {
+function new_planet_velocity(mass, angle, v, colour, parent, stable, label) {
     var orbital_radius = (G * parent.mass) / (v ** 2);
 
     var phys_x = orbital_radius * Math.cos(angle);
@@ -438,7 +441,7 @@ function new_planet_velocity(mass, angle, v, radius, colour, parent, stable, lab
     var vx = v * Math.cos((Math.PI / 2) - angle);
     var vy = -v * Math.sin((Math.PI / 2) - angle);
 
-    var planet = new Planet(phys_x, phys_y, mass, vx, vy, radius, colour, parent, label);
+    var planet = new Planet(phys_x, phys_y, mass, vx, vy, colour, parent, label);
     return planet;
 }
 
@@ -451,12 +454,11 @@ function random_planet() {
     var orbital_radius = ((Math.random() * 5) + 1) * AU;
     // var velocity = Math.random() * (10 ** 5);
 
-    var radius = map_radius(mass);
     var colour = '#' + Math.random().toString(16).slice(2, 8).toUpperCase();
 
     var label = planet_id.toString();
 
-    var planet = new_planet_radius(mass, angle, orbital_radius, radius, colour, sun, stable_orbit, label);
+    var planet = new_planet_radius(mass, angle, orbital_radius, colour, sun, stable_orbit, label);
     // var planet = new_planet_velocity(mass, angle, velocity, radius, colour, sun);
 
     newObjectControl(planet);
