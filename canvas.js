@@ -17,12 +17,25 @@ var time_slider = document.getElementById("time");
 var zoom_slider = document.getElementById("zoom");
 
 function on_time_change(value) {
-    console.log(time_slider.value);
+    // console.log(time_slider.value);
 }
 
 function on_zoom_change(value) {
     // console.log(zoom_slider.value);
     rescale(value * AU);
+}
+
+function on_click_stars(value) {
+    console.log(value);
+    show_stars = value;
+}
+
+function on_click_trails(value) {
+    show_trails = value;
+}
+
+function on_click_grid(value) {
+    show_grid = value;
 }
 
 
@@ -83,7 +96,10 @@ class BgStar {
 
         this.alpha += ((Math.random() - 0.5) * 2) * twinkliness;
         this.alpha = Math.max(0, Math.min(1.0, this.alpha));
-        this.draw();
+
+        if (show_stars) {
+            this.draw();
+        }
     }
 
     draw() {
@@ -193,6 +209,12 @@ class Planet {
         c.stroke();
         c.fill();
 
+        if (show_trails) {
+            this.draw_trails();
+        }
+    }
+
+    draw_trails() {
         for (var i in this.previous_positions) {
             var x = this.parent.px + (this.previous_positions[i][0] * pixels_per_m);
             var y = this.parent.py + (this.previous_positions[i][1] * pixels_per_m);
@@ -288,6 +310,10 @@ function new_planet_velocity(mass, angle, v, radius, colour, parent, stable) {
 //======= PARAMETERS ======
 var running = true;
 
+var show_stars = true;
+var show_trails = true;
+var show_grid = true;
+
 // planet trail parameters
 const num_trail_dots = 12;
 const dot_timesteps = 7;    // # of frames between trail dots
@@ -368,7 +394,7 @@ function pause() {
     }
 }
 
-function drawGrid() {
+function draw_grid() {
     var pixels_per_AU = AU * pixels_per_m;
 
     var i1 = sun.px;
@@ -427,7 +453,9 @@ function animate() {
     // clear the canvas
     c.clearRect(0, 0, innerWidth, innerHeight);
 
-    drawGrid();
+    if (show_grid) {
+        draw_grid();
+    }
 
     for (var i in bg_stars) {
         bg_stars[i].update();
