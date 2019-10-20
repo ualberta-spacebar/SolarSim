@@ -380,7 +380,7 @@ class Planet {
 //======= PLANET CREATION FUNCTIONS ======
 
 // create a planet with orbital radius, solve for velocity
-function new_planet_radius(mass, angle, orbital_radius, radius, colour, parent, stable) {
+function new_planet_radius(mass, angle, orbital_radius, radius, colour, parent, stable, label) {
     var phys_x = orbital_radius * Math.cos(angle);
     var phys_y = orbital_radius * Math.sin(angle);
 
@@ -393,12 +393,12 @@ function new_planet_radius(mass, angle, orbital_radius, radius, colour, parent, 
     var vx = v * Math.cos((Math.PI / 2) - angle);
     var vy = -v * Math.sin((Math.PI / 2) - angle);
 
-    var planet = new Planet(phys_x, phys_y, mass, vx, vy, radius, colour, parent);
+    var planet = new Planet(phys_x, phys_y, mass, vx, vy, radius, colour, parent, label);
     return planet;
 }
 
 // create a planet with velocity, solve for orbital radius
-function new_planet_velocity(mass, angle, v, radius, colour, parent, stable) {
+function new_planet_velocity(mass, angle, v, radius, colour, parent, stable, label) {
     var orbital_radius = (G * parent.mass) / (v ** 2);
 
     var phys_x = orbital_radius * Math.cos(angle);
@@ -411,7 +411,7 @@ function new_planet_velocity(mass, angle, v, radius, colour, parent, stable) {
     var vx = v * Math.cos((Math.PI / 2) - angle);
     var vy = -v * Math.sin((Math.PI / 2) - angle);
 
-    var planet = new Planet(phys_x, phys_y, mass, vx, vy, radius, colour, parent);
+    var planet = new Planet(phys_x, phys_y, mass, vx, vy, radius, colour, parent, label);
     return planet;
 }
 
@@ -499,7 +499,7 @@ for (var i = 0; i < num_planets; i++) {
     console.log(label);
 
     var planet = new_planet_radius(mass, angle, orbital_radius, radius, colour, sun, stable_orbit, label);
-    // var planet = new_planet_velocity(mass, angle, velocity, radius, colour, sun, stable_orbit);
+    // var planet = new_planet_velocity(mass, angle, velocity, radius, colour, sun);
 
     newObjectControl(planet);
 
