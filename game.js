@@ -46,12 +46,12 @@ function toggling() {
 
     // settings
     $(".object #mass").change(function () {
-        console.log($("input", this)[0].value);
-        get_planet($("input", this)[0].id).mass = $("input", this)[0].value * 1e16;
+        // console.log($("input", this)[0].value);
+        get_planet($("input", this)[0].id).set_mass($("input", this)[0].value * 1e16);
     });
     
     $(".object #color").change(function () {
-        console.log($("input", this)[0].value);
+        // console.log($("input", this)[0].value);
         get_planet($("input", this)[0].id).colour = $("input", this)[0].value;
     });
 }

@@ -268,6 +268,8 @@ class Planet {
 
         this.mass = mass;
 
+        this.initial_radius = map_radius(this.mass);
+
         this.vx = vx;
         this.vy = vy;
 
@@ -373,6 +375,11 @@ class Planet {
         this.previous_positions = [];
     }
 
+    set_mass(mass) {
+        this.mass = mass;
+        this.initial_radius = map_radius(this.mass);
+    }
+
     // calculate the distance between the centers of the sun and planet
     get orbital_distance() {
         var squared_distance = (this.phys_x ** 2) + (this.phys_y ** 2);
@@ -397,7 +404,11 @@ class Planet {
     }
 
     get radius() {
-        return map_radius(this.mass);
+        return (this.initial_radius / 15) * this.zoom;
+    }
+
+    get zoom() {
+        return document.getElementById("zoom").value * pixels_per_m * 2.5e8;
     }
 }
 
