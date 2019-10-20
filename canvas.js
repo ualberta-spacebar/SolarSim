@@ -536,7 +536,7 @@ for (var i = 0; i < num_stars; i++) {
 
 //======= SUN STUFF ======
 var sun_mass = 2 * (10 ** 30);
-var sun_temp = 5778;
+var sun_temp = 5775;
 
 var sun = new Sun(sun_mass, sun_temp);
 
