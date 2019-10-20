@@ -17,11 +17,16 @@ var time_slider = document.getElementById("time");
 var zoom_slider = document.getElementById("zoom");
 
 function on_time_change(value) {
-    // console.log(time_slider.value);
+    time_scale = value;
+
+    const slowest = 70;
+    const m = -(slowest - 1) / (1000000-10000);
+    const b = slowest + 1;
+
+    dot_timesteps = Math.round(m * value + b);
 }
 
 function on_zoom_change(value) {
-    // console.log(zoom_slider.value);
     rescale(value * AU);
 }
 
@@ -193,7 +198,7 @@ class Planet {
 
         if (time_step % dot_timesteps == 0) {
             this.previous_positions.push([this.phys_x, this.phys_y]);
-            if (this.previous_positions.length > num_trail_dots) {
+            while (this.previous_positions.length > num_trail_dots) {
                 this.previous_positions.shift();
             }
         }
@@ -314,14 +319,14 @@ var show_trails = true;
 var show_grid = true;
 
 // planet trail parameters
-const num_trail_dots = 12;
-const dot_timesteps = 7;    // # of frames between trail dots
+var num_trail_dots = 12;
+var dot_timesteps = 7;    // # of frames between trail dots
 const dot_radius_fraction = 1 / 3;  // fraction of the planet's radius for biggest dot
 const dot_scale = (1 / num_trail_dots) * dot_radius_fraction;
 
 // physics parameters
 var time_step = 0;
-const time_scale = 100000;  // higher = faster simulation
+var time_scale = 100000;  // higher = faster simulation
 
 const G = 6.67408 * (10 ** -11);    // gravitational constant
 const AU = 149597870700;    // astronomical unit constant
