@@ -82,15 +82,18 @@ canvas {
 }
 
 .overlay .game_settings button {
-  width: 50%;
+  max-width: 40px;
   background-color: white;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   border-radius: 3px;
+  border: 1px solid grey;
+  position: relative;
 }
 
 .overlay .game_settings button:active {
   background-color: grey;
+  top: 2px;
 }
 
 .overlay .game_settings label {
@@ -213,6 +216,7 @@ canvas {
 }
 
 .overlay .object {
+  position: relative;
   border-top: 1px solid grey;
   background-color: rgba(0, 0, 0, 0.05);
 }
@@ -229,11 +233,18 @@ canvas {
   display: block;
   cursor: pointer;
   width: 100%;
+  height: 24px;
 }
 
 .overlay .object button {
-  width: 55px !important;
+  width: 50px !important;
+  max-width: 100%;
+  height: 16px !important;
   background-color: red;
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  display: block !important;
   color: white;
   -webkit-filter: brightness(90%);
           filter: brightness(90%);
@@ -243,6 +254,7 @@ canvas {
   background-color: red;
   -webkit-filter: brightness(70%);
           filter: brightness(70%);
+  top: 6px;
 }
 
 .overlay .object #characteristics {

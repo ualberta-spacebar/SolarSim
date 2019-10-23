@@ -68,10 +68,10 @@ function on_click_habitable(value) {
 function pause() {
     running = !running;
     if (running) {
-        pause_button.textContent = "Pause"
+        pause_button.textContent = "⏸"
         animate();
     } else {
-        pause_button.textContent = "Resume"
+        pause_button.textContent = "▶"
     }
 }
 
