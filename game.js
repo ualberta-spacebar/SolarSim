@@ -6,7 +6,7 @@ function newObjectControl(planet) {
     let obj = document.createElement("div");
     obj.className = "object";
     let l = document.createElement("label");
-    l.innerText = "► Planet " + planet.label;
+    l.innerText = "►";
     l.id = planet.label;
     let ul = document.createElement("ul");
     ul.style.display = "none"
@@ -20,12 +20,14 @@ function newObjectControl(planet) {
         ul.appendChild(li);
     }
     let b = `<button onclick='get_planet(${planet.label}).dead = true;$(this).parent().hide()'>Delete</button>`;
+    let t = `<input type="text" id="labelName" maxlength="14" value="Planet ${planet.label}">`
     
     // add all the stuff to html
     obj.appendChild(l);
     // obj.appendChild(cb);
     obj.appendChild(ul);
     dock.appendChild(obj);
+    $(obj).append(t);
     $(obj).append(b);
 }
 
@@ -34,12 +36,12 @@ function toggling() {
     $(".object label").click(function () {
         let t = $(this)[0].innerText;
         if (t[0] == "▼") {
-            $(this)[0].innerText = "►" + t.substring(1);
+            $(this)[0].innerText = "►";
             try {
                 get_planet($(this)[0].id).highlighted = false;
             } catch(err) {}
         } else {
-            $(this)[0].innerText = "▼" + t.substring(1);
+            $(this)[0].innerText = "▼";
             try {
                 get_planet($(this)[0].id).highlighted = true;
             } catch(err) {}

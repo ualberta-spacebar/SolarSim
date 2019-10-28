@@ -267,6 +267,26 @@ canvas {
   padding: 4px 0;
 }
 
+.overlay .object #labelName {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  padding: 0 .2rem;
+  -webkit-margin-start: 3ex;
+          margin-inline-start: 3ex;
+  width: 14ex;
+  background-color: transparent;
+  border: 0;
+  color: white;
+  font-size: 1.05rem;
+}
+
+.overlay .object #labelName:focus {
+  background-color: white;
+  color: black;
+  border-radius: 3px;
+}
+
 .github {
   background-color: rgba(77, 77, 77, 0.75);
   color: white;

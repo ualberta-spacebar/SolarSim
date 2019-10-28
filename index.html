@@ -35,7 +35,7 @@
 		<div class="game_settings" id="game_objects">
 			<button onclick="random_planet();toggling()">➕</button>
 			<div class="object" id="sun">
-				<label>▼ Sun</label>
+				<label>▼</label>
 				<ul id="characteristics">
 					<li class="para" id="mass">
 						Mass (×10<sup>28</sup> kg) <input type="number" min="0">
@@ -44,6 +44,7 @@
 						Temperature (K) <input type="number" min="2500" max="40000" step="25">
 					</li>
 				</ul>
+				<input type="text" id="labelName" maxlength="14" value="Sun">
 			</div>
 		</div>
 		<div class="game_settings" id="game_parameters">
